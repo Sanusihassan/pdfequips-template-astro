@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import type { Dispatch, SetStateAction, RefObject } from "../react-astro";
 import { create } from "zustand";
 
 export interface FileStore {

@@ -1,16 +1,9 @@
 import { RefreshIcon, TrashIcon } from "@heroicons/react/solid";
 import { useRotatedImage, validateFiles } from "../../utils";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useContext,
-} from "react";
 import type { errors as _ } from "../../content";
 // import { ToolStoreContext } from "../../ToolStoreContext";
 
 import { useSelector, useDispatch } from "react-redux";
-import type { ToolState } from "../../store";
 import { useFileStore } from "../../file-store";
 
 export type ActionProps = {
@@ -52,9 +45,8 @@ export const ActionDiv = ({
 
   return (
     <div
-      className={`action-div d-flex ${
-        extension == ".html" ? "justify-content-end" : "justify-content-between"
-      }`}
+      className={`action-div d-flex ${extension == ".html" ? "justify-content-end" : "justify-content-between"
+        }`}
     >
       <button
         className="btn btn-light"

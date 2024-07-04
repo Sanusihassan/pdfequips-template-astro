@@ -1,17 +1,18 @@
 import axios from "axios";
-import { Dispatch, RefObject } from "react";
+
 import { downloadConvertedFile } from "../downloadFile";
-import type { errors as _ } from "../../content";
-import { AnyAction } from "@reduxjs/toolkit";
+import type { errors as _ } from "../content";
 import {
   resetErrorMessage,
   setField
 } from "../store";
+import type { Dispatch, RefObject } from "../../react-astro";
+import type { Action } from "@reduxjs/toolkit/react";
 
 export const handleUpload = async (
   e: React.FormEvent<HTMLFormElement>,
   downloadBtn: RefObject<HTMLAnchorElement>,
-  dispatch: Dispatch<AnyAction>,
+  dispatch: Dispatch<Action>,
   state: {
     path: string;
     errorMessage: string;

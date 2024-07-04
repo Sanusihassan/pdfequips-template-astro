@@ -1,10 +1,12 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+// import React, { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import type { Dispatch, SetStateAction, RefObject } from "../../../react-astro";
 import { ActionDiv } from "./ActionDiv";
 import { Tooltip } from "react-tooltip";
 import type { errors as _ } from "../../content";
 import { useDispatch } from "react-redux";
 import { getFileDetailsTooltipContent } from "../../utils";
 import { Loader } from "./Loader";
+import { useState, useEffect } from "react";
 interface ImageCardProps {
   index: number;
   provided: any;

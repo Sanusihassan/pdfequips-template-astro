@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "../../react-astro";
+
 export function useSelectedOption(
   selectedOption: number,
   setSelectedOption: Dispatch<SetStateAction<number>>

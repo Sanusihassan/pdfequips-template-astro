@@ -1,40 +1,44 @@
 ---
-import MainLayout from '../layout/MainLayout.astro';
-import { tool, tools, errors, edit_page, downloadFile } from "../content/content"
-export const routes = {
-  "/merge-pdf": { item: tool["Merge_PDF"] },
-};
-// getting the current item:
-const item = routes[`/${Astro.params.tool}` as keyof typeof routes].item;
+import MainLayout from "../layout/MainLayout.astro";
+import {
+  tool as _tool,
+  tools,
+  errors,
+  edit_page,
+  downloadFile,
+} from "../content/content";
+import { ToolWrapper } from "../components/ToolWrapper";
 
-export async function getStaticPaths() {
-  const paths = Object.keys(routes).map((key) => ({
+export const routes = {
+  "/merge-pages": { item: _tool["Merge_Pages"] },
+};
+
+const { tool } = Astro.params;
+const item = routes[`/${tool}` as keyof typeof routes]?.item;
+
+if (!item) {
+  return Astro.redirect("/404");
+}
+
+const lang = Astro.url.pathname.split("/")[1] || "en";
+
+export function getStaticPaths() {
+  return Object.keys(routes).map((key) => ({
     params: { tool: key.substring(1) },
   }));
-  return paths
-}
-export async function getStaticProps({
-  params,
-}: {
-  params: {
-    tool: string;
-  };
-}) {
-  const item = routes[`/${params.tool}` as keyof typeof routes].item;
-  return { props: { item } };
 }
 ---
 
-
-<MainLayout lang="en" title={`PDFEquips | ${item.title}`} path="path-to-tool">
- <!-- <Tool
+<MainLayout lang={lang} title={`PDFEquips | ${item.title}`} path={`/${tool}`}>
+  <ToolWrapper
+    client:only="react"
     tools={tools}
     data={item}
-    lang=""
+    lang={lang}
     errors={errors}
     edit_page={edit_page}
     pages={edit_page.pages}
     page={edit_page.page}
     downloadFile={downloadFile}
- /> -->
+  />
 </MainLayout>

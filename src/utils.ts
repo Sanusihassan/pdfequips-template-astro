@@ -1,13 +1,15 @@
-import { type Dispatch, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { type Action } from "@reduxjs/toolkit";
 import type { errors as _ } from "./content";
 import { setField } from "./store";
-import { getDocument } from "pdfjs-dist";
+import * as pdfjs from "pdfjs-dist";
 import type { PDFDocumentProxy, PageViewport, RenderTask } from "pdfjs-dist";
+import type { Dispatch } from "../react-astro";
+
 // @ts-ignore
 const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.entry");
-import { GlobalWorkerOptions } from "pdfjs-dist";
-GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// pdfjs.GlobalWorkerOptions = pdfjs.GlobalWorkerOptions || {};
+// pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 export function useLoadedImage(src: string): HTMLImageElement | null {
   const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
@@ -85,15 +87,14 @@ export const getFileDetailsTooltipContent = async (
         });
       } else if (file.type === "application/pdf") {
         const url = URL.createObjectURL(file);
-        const pdf = await getDocument(url).promise;
+        const pdf = await pdfjs.getDocument(url).promise;
 
         const pageCount = pdf.numPages || 0;
         if (pageCount === 2 && lang === "ar") {
           tooltipContent += " - صفحتين</bdi>";
         } else {
-          tooltipContent += ` - ${
-            lang === "ar" && pageCount === 1 ? "" : pageCount + " "
-          }${pageCount > 1 ? pages : page}</bdi>`;
+          tooltipContent += ` - ${lang === "ar" && pageCount === 1 ? "" : pageCount + " "
+            }${pageCount > 1 ? pages : page}</bdi>`;
         }
         URL.revokeObjectURL(url);
         if (!file.size) {
@@ -125,7 +126,7 @@ export async function getFirstPageAsImage(
     return emptyPDFHandler(dispatch, errors);
   } else {
     try {
-      const loadingTask = getDocument(fileUrl);
+      const loadingTask = pdfjs.getDocument(fileUrl);
       const pdf: PDFDocumentProxy = await loadingTask.promise;
       const page = await pdf.getPage(1); // Get the first page
 
@@ -241,7 +242,7 @@ export const validateFiles = (
     ) {
       const errorMessage =
         errors.NOT_SUPPORTED_TYPE.types[
-          extension as keyof typeof errors.NOT_SUPPORTED_TYPE.types
+        extension as keyof typeof errors.NOT_SUPPORTED_TYPE.types
         ] || errors.NOT_SUPPORTED_TYPE.message;
       dispatch(setField({ errorMessage: errorMessage }));
       return false;
@@ -286,7 +287,7 @@ export async function calculatePages(file: PDFFile): Promise<number> {
     reader.onload = async (event) => {
       try {
         const typedArray = new Uint8Array(event.target?.result as ArrayBuffer);
-        const pdf = await getDocument(typedArray).promise;
+        const pdf = await pdfjs.getDocument(typedArray).promise;
         resolve(pdf.numPages);
       } catch (error) {
         reject(error);

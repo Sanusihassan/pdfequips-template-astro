@@ -1,4 +1,5 @@
-import { type Dispatch, type SetStateAction, useEffect } from "react";
+// import { type Dispatch, type SetStateAction, useEffect } from "react";
+import type { Dispatch, SetStateAction, RefObject } from "../../../react-astro";
 import type { errors as _ } from "../../content";
 import ImageCard from "./ImageCard";
 import FileCard from "./FileCard";
@@ -8,6 +9,7 @@ import { isDraggableExtension } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import store, { type ToolState } from "../../store";
 import { useFileStore } from "../../file-store";
+import { useEffect } from "react";
 
 type FileProps = {
   errors: _;
@@ -31,7 +33,7 @@ const Files = ({
   // const store = useSelector((state: { tool: ToolState }) => state.tool);
   const { files, imageUrls, setImageUrls } = useFileStore();
 
-  useEffect(() => {}, [files]);
+  useEffect(() => { }, [files]);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) {
@@ -50,9 +52,8 @@ const Files = ({
         <Droppable droppableId="imageUrls" direction="horizontal">
           {(provided, snapshot) => (
             <div
-              className={`display-file ${
-                snapshot.isDraggingOver ? "dragging-over" : ""
-              }`}
+              className={`display-file ${snapshot.isDraggingOver ? "dragging-over" : ""
+                }`}
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -68,9 +69,8 @@ const Files = ({
                     <div
                       {...provided.draggableProps}
                       ref={provided.innerRef}
-                      className={`drag-element ${
-                        snapshot.isDragging ? "dragging" : ""
-                      }`}
+                      className={`drag-element ${snapshot.isDragging ? "dragging" : ""
+                        }`}
                       style={{
                         ...provided.draggableProps.style,
                       }}

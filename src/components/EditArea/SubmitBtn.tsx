@@ -1,7 +1,7 @@
 import { Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useFileStore } from "../../file-store";
-import { ToolState, setField } from "../../store";
+import { type ToolState, setField } from "../../store";
 import type { edit_page } from "../../content";
 export function SubmitBtn({
   k,
@@ -34,7 +34,7 @@ export function SubmitBtn({
       <bdi>
         {
           edit_page.action_buttons[
-            k.replace(/-/g, "_") as keyof typeof edit_page.action_buttons
+          k.replace(/-/g, "_") as keyof typeof edit_page.action_buttons
           ]
         }
       </bdi>{" "}
