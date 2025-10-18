@@ -3,11 +3,9 @@ import axios from "axios";
 import { downloadConvertedFile } from "../downloadFile";
 import type { errors as _ } from "../content";
 import { type RefObject } from "react";
-import {
-  resetErrorMessage,
-  setField
-} from "../store";
+import { resetErrorMessage, setField } from "../store";
 import type { Action, Dispatch } from "@reduxjs/toolkit/react";
+import { unpackArrayBuffer } from "../utils";
 let filesOnSubmit = [];
 export const handleUpload = async (
   e: React.FormEvent<HTMLFormElement>,
@@ -16,15 +14,15 @@ export const handleUpload = async (
   state: {
     path: string;
     errorMessage: string;
-    fileName: string,
+    fileName: string;
     rotations: {
       k: string;
       r: number;
-    }[],
-    userId: string | null
+    }[];
+    userId: string | null;
   },
   files: File[],
-  errors: _,
+  errors: _
 ) => {
   e.preventDefault();
   dispatch(setField({ isSubmitted: true }));
@@ -53,7 +51,7 @@ export const handleUpload = async (
   let url: string = "";
   // @ts-ignore
   if (process.env.NODE_ENV === "development") {
-    url = `https://redesigned-acorn-q45xrp7p45j3q69-8000.app.github.dev/api/${state.path}`;
+    url = `http://localhost:8000/api/${state.path}`;
   } else {
     url = `/api/${state.path}`;
   }
@@ -97,11 +95,11 @@ export const handleUpload = async (
       outputFileName: `${originalFileName}.pptx`,
     },
     "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-    {
-      outputFileMimeType:
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-      outputFileName: `${originalFileName}.pptx`,
-    },
+      {
+        outputFileMimeType:
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        outputFileName: `${originalFileName}.pptx`,
+      },
     "text/plain": {
       outputFileMimeType: "text/plain",
       outputFileName: `${originalFileName}.txt`,
@@ -127,7 +125,7 @@ export const handleUpload = async (
       state.fileName || outputFileName,
       downloadBtn
     );
-    filesOnSubmit = files.map(f => f.name);
+    filesOnSubmit = files.map((f) => f.name);
 
     if (response.status !== 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -141,6 +139,50 @@ export const handleUpload = async (
       return;
     }
     dispatch(setField({ isSubmitted: false }));
+    type t = keyof typeof errors | "TOTAL_PAGES" | "PER_FILE_PAGES";
+
+    // let's add the missing cases here:
+    // just give me the missing ones and i'll add them:
+    const errorResponse = (error as any).response?.data;
+    // For your specific case:
+    const errorData = unpackArrayBuffer<{ errcode: t }>(errorResponse);
+    if (errorData) {
+      let limitationMsg = "";
+      let errMsg = "";
+      switch (errorData.errcode) {
+        case "MAX_FILES_EXCEEDED":
+          limitationMsg = errors.alerts.maxFiles;
+          break;
+        case "TOTAL_PAGES":
+          limitationMsg = errors.alerts.totalPages;
+          break;
+        case "PER_FILE_PAGES":
+          limitationMsg = errors.alerts.perFilePages;
+          break;
+        case "FILE_TOO_LARGE":
+          limitationMsg = errors.alerts.fileSize;
+          break;
+        case "FILE_CORRUPT":
+          limitationMsg = errMsg = errors["FILE_CORRUPT"].message;
+          break;
+        case "NOT_SUPPORTED_TYPE":
+          errMsg = errors["NOT_SUPPORTED_TYPE"].message;
+        case "NO_FILES_SELECTED":
+          errMsg = errors["NO_FILES_SELECTED"].message;
+          break;
+        case "EMPTY_FILE":
+          errMsg = errors["EMPTY_FILE"].message;
+          break;
+        default:
+          errMsg = errors["UNKNOWN_ERROR"].message;
+      }
+      if (errMsg) {
+        dispatch(setField({ errorMessage: limitationMsg }));
+      }
+      if (limitationMsg) {
+        dispatch(setField({ limitationMsg }));
+      }
+    }
   } finally {
     dispatch(setField({ isSubmitted: false }));
   }

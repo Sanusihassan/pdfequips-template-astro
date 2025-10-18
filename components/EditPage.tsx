@@ -5,11 +5,7 @@ import ErrorElement from "./ErrorElement";
 import type { errors as _ } from "../src/content";
 import { CogIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  type ToolState,
-  resetErrorMessage,
-  setField,
-} from "../src/store";
+import { type ToolState, resetErrorMessage, setField } from "../src/store";
 import { useFileStore } from "../src/file-store";
 import AddMoreButton from "./EditArea/AddMoreButton";
 import { SubmitBtn } from "./EditArea/SubmitBtn";
@@ -23,6 +19,7 @@ type editPageProps = {
   lang: string;
   errors: _;
   path: string;
+  drop_files: string;
 };
 
 const EditPage = ({
@@ -32,7 +29,8 @@ const EditPage = ({
   page,
   lang,
   errors,
-  path
+  path,
+  drop_files,
 }: editPageProps) => {
   // state variables
   const errorCode = useSelector(
@@ -66,7 +64,9 @@ const EditPage = ({
           page={page}
           lang={lang}
           errors={errors}
-          edit_page={edit_page} />
+          drop_files={drop_files}
+          edit_page={edit_page}
+        />
         <ErrorElement />
         <AddMoreButton
           onClick={() => {
@@ -92,7 +92,10 @@ const EditPage = ({
           <bdi>
             {
               edit_page.edit_page_titles[
-              path.replace(/-/g, "_") as keyof typeof edit_page.edit_page_titles
+                path.replace(
+                  /-/g,
+                  "_"
+                ) as keyof typeof edit_page.edit_page_titles
               ]
             }
           </bdi>

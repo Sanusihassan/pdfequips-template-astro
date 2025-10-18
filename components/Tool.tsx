@@ -7,6 +7,7 @@ import { FileInputForm } from "./Tool/FileInputForm";
 import DownloadFile from "./DownloadFile";
 import { useFileStore } from "../src/file-store";
 import { setField } from "../src/store";
+import { filterNewFiles, ACCEPTED } from "../src/utils";
 
 export type errorType = {
   response: {
@@ -47,9 +48,13 @@ const Tool: React.FC<ToolProps> = ({
   downloadFile,
 }) => {
   const path = data.to.replace("/", "");
-  const stateShowTool = useSelector((state: { tool: any }) => state.tool.showTool);
-  const errorMessage = useSelector((state: { tool: any }) => state.tool.errorMessage);
-  const { setFiles } = useFileStore();
+  const stateShowTool = useSelector(
+    (state: { tool: any }) => state.tool.showTool
+  );
+  const errorMessage = useSelector(
+    (state: { tool: any }) => state.tool.errorMessage
+  );
+  const { setFiles, files } = useFileStore();
   const dispatch = useDispatch();
 
   const handleHideTool = () => {
@@ -61,28 +66,30 @@ const Tool: React.FC<ToolProps> = ({
   }, [stateShowTool]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
+    const newFiles = filterNewFiles(acceptedFiles, files, ACCEPTED);
+    setFiles(newFiles);
     handleHideTool();
   }, []);
 
-  const handlePaste = useCallback((event: React.ClipboardEvent<HTMLDivElement>) => {
-    const items = event.clipboardData?.items;
-    if (items) {
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        if (item.kind === "file") {
-          const blob = item.getAsFile();
-          if (blob) {
-            setFiles([blob]);
-            handleHideTool();
-            return;
+  const handlePaste = useCallback(
+    (event: React.ClipboardEvent<HTMLDivElement>) => {
+      const items = event.clipboardData?.items;
+      if (items) {
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.kind === "file") {
+            const blob = item.getAsFile();
+            if (blob) {
+              setFiles([blob]);
+              handleHideTool();
+              return;
+            }
           }
         }
       }
-    }
-  }, []);
-
-
+    },
+    []
+  );
 
   const { getRootProps, isDragActive } = dropzone.useDropzone({ onDrop });
 
@@ -108,15 +115,12 @@ const Tool: React.FC<ToolProps> = ({
           <div className="overlay display-4">{tools.drop_files}</div>
         )}
         <div
-          className={`text-center${!(stateShowTool && errorMessage?.length > 0) ? "" : " d-flex"
-            } flex-column tools ${stateShowTool ? "" : "d-none"}`}
+          className={`text-center${
+            !(stateShowTool && errorMessage?.length > 0) ? "" : " d-flex"
+          } flex-column tools ${stateShowTool ? "" : "d-none"}`}
         >
-          <h1 className="display-3">
-            {data.title}
-          </h1>
-          <p className="lead">
-            {data.description}
-          </p>
+          <h1 className="display-3">{data.title}</h1>
+          <p className="lead">{data.description}</p>
           <FileInputForm
             lang={lang}
             data={data}
@@ -135,6 +139,7 @@ const Tool: React.FC<ToolProps> = ({
           lang={lang}
           errors={errors}
           path={path}
+          drop_files={tools.drop_files}
         />
         <DownloadFile lang={lang} downloadFile={downloadFile} path={path} />
       </div>

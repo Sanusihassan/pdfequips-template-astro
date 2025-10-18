@@ -11,13 +11,12 @@ export type ActionProps = {
   fileName: string;
 };
 
-export const ActionDiv = ({
-  extension,
-  fileName,
-}: ActionProps) => {
+export const ActionDiv = ({ extension, fileName }: ActionProps) => {
   const { files, setFiles } = useFileStore();
   const dispatch = useDispatch();
-  const rotations = useSelector((state: { tool: ToolState }) => state.tool.rotations);
+  const rotations = useSelector(
+    (state: { tool: ToolState }) => state.tool.rotations
+  );
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const newFiles = files.filter((file) => file.name !== fileName);
     setFiles(newFiles);
@@ -25,26 +24,27 @@ export const ActionDiv = ({
 
   const handleRotate = () => {
     const k = sanitizeKey(fileName.split(".")[0]);
-    const existingRotation = rotations && k ? rotations.find(r => r.k === k) : null;
+    const existingRotation =
+      rotations && k ? rotations.find((r) => r.k === k) : null;
     const newRotation = existingRotation ? existingRotation.r + 90 : 90;
 
-    dispatch(setField({
-      rotations: [
-        ...rotations.filter(r => r.k !== k),
-        { k, r: newRotation % 360 } // Optional: keep rotation between 0-360
-      ]
-    }))
-  }
+    dispatch(
+      setField({
+        rotations: [
+          ...rotations.filter((r) => r.k !== k),
+          { k, r: newRotation % 360 }, // Optional: keep rotation between 0-360
+        ],
+      })
+    );
+  };
 
   return (
     <div
-      className={`action-div d-flex ${extension == ".html" ? "justify-content-end" : "justify-content-between"
-        }`}
+      className={`action-div d-flex ${
+        extension == ".html" ? "justify-content-end" : "justify-content-between"
+      }`}
     >
-      <button
-        className="btn btn-light"
-        onClick={(e) => handleClick(e)}
-      >
+      <button className="btn btn-light" onClick={(e) => handleClick(e)}>
         <TrashIcon className="icon hero-icon" />
       </button>
       <button className="btn btn-light" onClick={handleRotate}>
