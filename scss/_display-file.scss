@@ -13,7 +13,6 @@
   align-items: stretch;
 
   .drag-element {
-
     .image-tooltip,
     .item-tooltip {
       height: 100%;
@@ -64,6 +63,9 @@
       button {
         color: var(--gray-dark);
       }
+    }
+    .password-input-row {
+      z-index: 1;
     }
 
     &:hover .action-div {

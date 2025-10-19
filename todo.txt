@@ -9,3 +9,7 @@ Total Page Limit: The final, merged PDF document cannot exceed 1,500 pages.
 Individual File Page Limit: Each separate file being merged is generally limited to 500 pages.
 
 File Size Limit: Each individual file you upload is usually limited to 50MB in size.
+
+
+
+next add password state

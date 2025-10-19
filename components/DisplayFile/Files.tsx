@@ -12,7 +12,6 @@ import {
   calculatePages,
   filterNewFiles,
   isDraggableExtension,
-  sanitizeKey,
 } from "../../src/utils";
 import { useFileStore } from "../../src/file-store";
 import { useDispatch } from "react-redux";

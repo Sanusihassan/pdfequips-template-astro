@@ -1,8 +1,12 @@
-import type { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
+// FileCard.tsx
+import type {
+  DraggableProvided,
+  DraggableStateSnapshot,
+} from "react-beautiful-dnd";
 import { ActionDiv, type ActionProps } from "./ActionDiv";
 import { Tooltip } from "react-tooltip";
 import type { errors as _ } from "../../src/content";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { Loader } from "./Loader";
 import {
   getFileDetailsTooltipContent,
@@ -11,7 +15,7 @@ import {
   sanitizeKey,
 } from "../../src/utils";
 import { useDispatch, useSelector } from "react-redux";
-import type { ToolState } from "../../src/store";
+import { setField, type ToolState } from "../../src/store";
 
 type OmitFileName<T extends ActionProps> = Omit<T, "fileName">;
 
@@ -39,11 +43,13 @@ const FileCard = ({
   const [showLoader, setShowLoader] = useState(true);
   const [imageUrl, setImageUrl] = useState("");
   const [tooltipSize, setToolTipSize] = useState("");
+  const [password, setPassword] = useState<string>("");
   const dispatch = useDispatch();
+  const isSubscribedRef = useRef(true);
 
   // Memoize the sanitized key to avoid recalculating
-  const sanitizedKey = useMemo(() =>
-    file.name ? sanitizeKey(file.name.split(".")[0]) : null,
+  const sanitizedKey = useMemo(
+    () => (file.name ? sanitizeKey(file.name.split(".")[0]) : null),
     [file.name]
   );
 
@@ -51,12 +57,81 @@ const FileCard = ({
   // This prevents re-renders when other files' rotations change
   const rotation = useSelector((state: { tool: ToolState }) => {
     if (!sanitizedKey) return null;
-    return state.tool.rotations?.find(r => r.k === sanitizedKey) || null;
+    return state.tool.rotations?.find((r) => r.k === sanitizedKey) || null;
   });
+  const errorCode = useSelector(
+    (state: { tool: ToolState }) => state.tool.errorCode
+  );
+  const passwords = useSelector(
+    (state: { tool: ToolState }) => state.tool.passwords
+  );
 
-  let isSubscribed = true;
+  const processFile = async (currentPassword: string) => {
+    try {
+      setShowLoader(true);
+      if (extension && extension === ".pdf") {
+        if (isSubscribedRef.current) {
+          const img = await getFirstPageAsImage(
+            file,
+            dispatch,
+            errors,
+            currentPassword || undefined
+          );
+
+          if (isSubscribedRef.current) {
+            setImageUrl(img);
+
+            // Only update passwords if successfully unlocked
+            if (img && img !== "/images/locked.png" && currentPassword) {
+              // Remove any existing password entry for this file to avoid duplicates
+              const filteredPasswords = passwords.filter(
+                (p) => p.k !== sanitizedKey
+              );
+
+              // Add the new password entry
+              const updatedPasswords = [
+                ...filteredPasswords,
+                { k: sanitizedKey, p: currentPassword },
+              ];
+
+              dispatch(
+                setField({
+                  passwords: updatedPasswords,
+                  errorCode: "",
+                  errorMessage: "",
+                })
+              );
+            } else if (
+              img === "/images/locked.png" &&
+              (errorCode === "PASSWORD_REQUIRED" ||
+                errorCode === "INCORRECT_PASSWORD")
+            ) {
+              // Keep error state for locked file
+            } else if (img && img !== "/images/locked.png") {
+              // File unlocked without password or was never locked
+              dispatch(setField({ errorCode: "", errorMessage: "" }));
+            }
+          }
+        }
+      } else if (extension && extension !== ".jpg") {
+        if (isSubscribedRef.current) {
+          setImageUrl(
+            !file.size
+              ? "/images/corrupted.png"
+              : getPlaceHoderImageUrl(extension)
+          );
+        }
+      }
+    } finally {
+      if (isSubscribedRef.current) {
+        setShowLoader(false);
+      }
+    }
+  };
 
   useEffect(() => {
+    isSubscribedRef.current = true;
+
     (async () => {
       let size = await getFileDetailsTooltipContent(
         file,
@@ -64,37 +139,17 @@ const FileCard = ({
         dispatch,
         errors
       );
-      setToolTipSize(size);
+      if (isSubscribedRef.current) {
+        setToolTipSize(size);
+      }
     })();
 
-    const processFile = async () => {
-      try {
-        setShowLoader(true);
-        if (extension && extension === ".pdf") {
-          if (isSubscribed) {
-            setImageUrl(await getFirstPageAsImage(file, dispatch, errors));
-          }
-        } else if (extension && extension !== ".jpg") {
-          if (isSubscribed) {
-            setImageUrl(
-              !file.size
-                ? "/images/corrupted.png"
-                : getPlaceHoderImageUrl(extension)
-            );
-          }
-        }
-      } finally {
-        setShowLoader(false);
-      }
-    };
-
-    processFile();
+    processFile(password);
 
     return () => {
-      isSubscribed = false;
+      isSubscribedRef.current = false;
     };
-    // Only depend on things that affect the image loading, not rotation
-  }, [extension, file]);
+  }, [extension, file, password]);
 
   return (
     <div
@@ -111,6 +166,8 @@ const FileCard = ({
       <ActionDiv
         extension={extension}
         fileName={file.name}
+        setPassword={setPassword}
+        needsPassword={imageUrl === "/images/locked.png"}
       />
       <div className="card-body d-flex flex-column">
         {!showLoader ? (

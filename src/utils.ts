@@ -3,12 +3,12 @@ import { type Action, type Dispatch } from "@reduxjs/toolkit";
 import type { errors as _ } from "./content";
 import { setField } from "./store";
 import * as pdfjs from "pdfjs-dist";
+
 import {
   type PDFDocumentProxy,
   type PageViewport,
   type RenderTask,
 } from "pdfjs-dist";
-import slugify from "slugify";
 // @ts-ignore
 const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
 // pdfjs.GlobalWorkerOptions = pdfjs.GlobalWorkerOptions || {};
@@ -114,12 +114,7 @@ export const getFileDetailsTooltipContent = async (
 
   return tooltipContent;
 };
-
-/**
- * this is the current function and it's working,
- * but i want to display the pdf.png file while fetching the first page from the pdf
- */
-
+// on password success i want to
 export async function getFirstPageAsImage(
   file: File,
   dispatch: Dispatch<Action>,
@@ -131,7 +126,27 @@ export async function getFirstPageAsImage(
     return emptyPDFHandler(dispatch, errors);
   } else {
     try {
-      const loadingTask = pdfjs.getDocument(fileUrl);
+      const loadingTask = pdfjs.getDocument({
+        url: fileUrl,
+        password: password || undefined,
+      });
+
+      // Handle password requests
+      loadingTask.onPassword = (updatePassword, reason) => {
+        if (reason === pdfjs.PasswordResponses.NEED_PASSWORD) {
+          // First time asking for password
+          if (password) {
+            updatePassword(password);
+          } else {
+            dispatch(setField({ errorCode: "PASSWORD_REQUIRED" }));
+            throw new Error("PASSWORD_REQUIRED");
+          }
+        } else if (reason === pdfjs.PasswordResponses.INCORRECT_PASSWORD) {
+          dispatch(setField({ errorCode: "INCORRECT_PASSWORD" }));
+          throw new Error("INCORRECT_PASSWORD");
+        }
+      };
+
       const pdf: PDFDocumentProxy = await loadingTask.promise;
       const page = await pdf.getPage(1); // Get the first page
 
@@ -153,18 +168,39 @@ export async function getFirstPageAsImage(
 
       await renderTask.promise;
 
+      // Clean up the object URL
+      URL.revokeObjectURL(fileUrl);
+
       return canvas.toDataURL();
     } catch (error) {
-      dispatch(setField({ errorMessage: errors.FILE_CORRUPT.message }));
-      /**
-       error might be PasswordException, lt
-       */
-      console.log("error", error);
-      return DEFAULT_PDF_IMAGE; // Return the placeholder image URL when an error occurs
+      // Clean up the object URL on error
+      URL.revokeObjectURL(fileUrl);
+
+      // Check if it's not password-related error
+      if (!error.code) {
+        dispatch(setField({ errorMessage: errors.FILE_CORRUPT.message }));
+        return DEFAULT_PDF_IMAGE;
+      } else {
+        const { code } = error;
+        if (code === pdfjs.PasswordResponses.NEED_PASSWORD) {
+          dispatch(
+            setField({
+              errorMessage: errors.PASSWORD_REQUIRED.message,
+            })
+          );
+          return "/images/locked.png";
+        } else {
+          dispatch(
+            setField({
+              errorMessage: errors.INCORRECT_PASSWORD.message,
+            })
+          );
+          return "/images/locked.png";
+        }
+      }
     }
   }
 }
-
 export const getPlaceHoderImageUrl = (extension: string) => {
   switch (extension) {
     case ".docx":
@@ -352,7 +388,8 @@ export async function getNthPageAsImage(
 
 /**
  * Sanitizes a string to be a valid key for both JavaScript objects and Python dictionaries.
- * Uses slugify library for consistent cross-platform behavior.
+ * Produces a Linux filename-friendly string using built-in functions.
+ * Ensures consistent behavior across JS and Python.
  *
  * @param input - The string to sanitize
  * @returns A sanitized key safe for both JS and Python
@@ -366,19 +403,19 @@ export function sanitizeKey(input: string | number | null | undefined): string {
   // Convert to string
   let key = String(input);
 
-  // Pre-process: Remove apostrophes/quotes before slugifying
-  // This ensures "d'un" becomes "dun" not "d_un"
-  key = key.replace(/['''`"]/g, "");
+  // Normalize unicode by removing diacritics
+  key = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-  // Use slugify to normalize the string
-  key = slugify(key, {
-    replacement: "_", // replace spaces with underscores
-    remove: /[*+~.()'"!:@]/g, // remove special characters
-    lower: false, // preserve case
-    strict: true, // strip special characters
-    locale: "en", // use English rules
-    trim: true, // trim leading/trailing replacement chars
-  });
+  // Replace any non-alphanumeric or underscore characters with underscore
+  key = key.replace(/[^a-zA-Z0-9_]/g, "_");
+
+  // Remove consecutive underscores
+  while (key.includes("__")) {
+    key = key.replace(/__/g, "_");
+  }
+
+  // Trim leading and trailing underscores
+  key = key.replace(/^_+|_+$/g, "");
 
   // Ensure it doesn't start with a digit
   if (/^\d/.test(key)) {

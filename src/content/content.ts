@@ -9,19 +9,23 @@ export const tool = {
     features: [
       {
         title: "Completely free and without registration",
-        description: "PDFEquips offers a free online PDF merging service It's not necessary to create an account, and we never ask for your email address or credit card information"
+        description:
+          "PDFEquips offers a free online PDF merging service It's not necessary to create an account, and we never ask for your email address or credit card information",
       },
       {
         title: "Robust tool for merging PDFs",
-        description: "PDFEquips easily combines two or more PDF documents into one file, whether it's a single page or multiple pages, large or small PDF files, all formats are compatible"
+        description:
+          "PDFEquips easily combines two or more PDF documents into one file, whether it's a single page or multiple pages, large or small PDF files, all formats are compatible",
       },
       {
         title: "Securely merge PDF files online",
-        description: "All files you upload and create on our servers are encrypted for security reasons using TLS They will be immediately and permanently deleted after processing For more information, please refer to our privacy policy"
-      }
+        description:
+          "All files you upload and create on our servers are encrypted for security reasons using TLS They will be immediately and permanently deleted after processing For more information, please refer to our privacy policy",
+      },
     ],
-    keywords: "merge PDF, merge PDF online, combine PDF files, free PDF merge, PDF merger, PDF combine tool, online PDF merge, PDF merge free, merge PDF documents, combine PDFs online, secure PDF merge, PDF file merger, PDF merge tool, free online PDF combiner, merge multiple PDFs, combine PDF pages, no registration PDF merge, PDF merger tool, online PDF combiner"
-  }
+    keywords:
+      "merge PDF, merge PDF online, combine PDF files, free PDF merge, PDF merger, PDF combine tool, online PDF merge, PDF merge free, merge PDF documents, combine PDFs online, secure PDF merge, PDF file merger, PDF merge tool, free online PDF combiner, merge multiple PDFs, combine PDF pages, no registration PDF merge, PDF merger tool, online PDF combiner",
+  },
 };
 
 export const tools = {
@@ -46,8 +50,8 @@ export const edit_page = {
     label: "Output File Name (Optional)",
     placeholder: "Enter file name",
     helperText: "This will be the name of the merged PDF when downloaded.",
-    cta: "View Plans"
-  }
+    cta: "View Plans",
+  },
 };
 
 export const downloadFile = {
@@ -64,13 +68,12 @@ export const downloadFile = {
   },
 };
 
-
 export const footer = {
   brand: "PDFEquips",
   terms: "terms",
   conditions: "conditions",
   privacy_policy: "privacy policy",
-}
+};
 
 export const errors = {
   EMPTY_FILE: {
@@ -130,7 +133,6 @@ export const errors = {
       "An unknown error occurred. Please try again later or contact support.",
     code: "ERR_UNKNOWN",
   },
-  // i want another error like this but when only one file is uploaded
   ERR_NETWORK: {
     message:
       "A network error occurred. Please check your internet connection and try again.",
@@ -140,10 +142,20 @@ export const errors = {
     message: "Please upload at least two files to merge.",
     code: "ERR_UPLOAD_COUNT",
   },
+  PASSWORD_REQUIRED: {
+    message: "PDF requires a password.",
+    code: "PASSWORD_REQUIRED",
+  },
+
+  INCORRECT_PASSWORD: {
+    message: "The password you entered is incorrect.",
+    code: "INCORRECT_PASSWORD",
+  },
+
   alerts: {
     maxFiles: "Max 50 files. Subscribe for more!",
     totalPages: "Max 1,500 pages. Upgrade now!",
     perFilePages: "500 pages per file. Unlock more now!",
-    fileSize: "50MB per file. Upgrade for more!"
-  }
+    fileSize: "50MB per file. Upgrade for more!",
+  },
 };

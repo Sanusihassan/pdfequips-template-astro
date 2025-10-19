@@ -1,3 +1,4 @@
+// when downloaded, if any settings changed allow refetch.
 import axios from "axios";
 
 import { downloadConvertedFile } from "../downloadFile";
@@ -18,6 +19,10 @@ export const handleUpload = async (
     rotations: {
       k: string;
       r: number;
+    }[];
+    passwords: {
+      k: string;
+      p: string;
     }[];
     userId: string | null;
   },
@@ -48,6 +53,9 @@ export const handleUpload = async (
   }
   formData.append("rotations", JSON.stringify(state.rotations));
   formData.append("userId", state.userId);
+  formData.append("passwords", JSON.stringify(state.passwords));
+
+  console.log(state.passwords);
   let url: string = "";
   // @ts-ignore
   if (process.env.NODE_ENV === "development") {
