@@ -15,8 +15,10 @@ import {
 } from "../../src/utils";
 import { useFileStore } from "../../src/file-store";
 import { useDispatch } from "react-redux";
-import { setField } from "../../src/store";
+import { setField, type ToolState } from "../../src/store";
+import { useSelector } from "react-redux";
 import { fetchSubscriptionStatus } from "fetch-subscription-status";
+// import { fetchSubscriptionStatus } from "fetch-subscription-status";
 
 type FileProps = {
   errors: _;
@@ -38,12 +40,18 @@ const Files = ({
   const { files, setFiles } = useFileStore();
   const dispatch = useDispatch();
   const [isDraggingFiles, setIsDraggingFiles] = useState(false);
+  const subscriptionStatus = useSelector(
+    (state: { tool: ToolState }) => state.tool.subscriptionStatus
+  );
   let pageCounts = [];
 
   useEffect(() => {
     let limitationMsg = "";
     (async () => {
-      const isSubscribed = await fetchSubscriptionStatus();
+      const isSubscribed =
+        subscriptionStatus === null
+          ? await fetchSubscriptionStatus()
+          : subscriptionStatus;
       if (isSubscribed) {
         return;
       }

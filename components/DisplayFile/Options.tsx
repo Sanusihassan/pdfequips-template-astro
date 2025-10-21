@@ -4,9 +4,34 @@ import { useFileStore } from "../../src/file-store";
 import { useEffect, useRef } from "react";
 import type { edit_page } from "../../src/content";
 
+export const CTABtn = ({
+  cta,
+  centerItem,
+}: {
+  cta: string;
+  centerItem?: boolean;
+}) => {
+  return (
+    <div className={`mt-2${centerItem ? " row justify-content-center" : ""}`}>
+      <a
+        href="/pricing"
+        className="btn btn-primary btn-sm cta-btn"
+        target="_blank"
+        style={{ fontWeight: "500" }}
+      >
+        {cta}
+      </a>
+    </div>
+  );
+};
+
 export const Options = ({ content }: { content: edit_page["options"] }) => {
-  const fileName = useSelector((state: { tool: ToolState }) => state.tool.fileName);
-  const limitationMsg = useSelector((state: { tool: ToolState }) => state.tool.limitationMsg);
+  const fileName = useSelector(
+    (state: { tool: ToolState }) => state.tool.fileName
+  );
+  const limitationMsg = useSelector(
+    (state: { tool: ToolState }) => state.tool.limitationMsg
+  );
   const dispatch = useDispatch();
   const { files } = useFileStore();
 
@@ -44,15 +69,7 @@ export const Options = ({ content }: { content: edit_page["options"] }) => {
       {limitationMsg ? (
         <div className="mt-3 alert alert-info mb-3" role="alert">
           {limitationMsg}
-          <div className="mt-2">
-            <a
-              href="/pricing"
-              className="btn btn-primary btn-sm"
-              style={{ fontWeight: "500" }}
-            >
-              {content.cta}
-            </a>
-          </div>
+          <CTABtn cta={content.cta} />
         </div>
       ) : null}
     </div>

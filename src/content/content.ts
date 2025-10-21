@@ -151,6 +151,11 @@ export const errors = {
     message: "The password you entered is incorrect.",
     code: "INCORRECT_PASSWORD",
   },
+  MAX_DAILY_USAGE: {
+    message:
+      "You’ve reached your daily usage limit. Please upgrade your plan to continue using this feature without interruption.",
+    code: "MAX_DAILY_USAGE",
+  },
 
   alerts: {
     maxFiles: "Max 50 files. Subscribe for more!",

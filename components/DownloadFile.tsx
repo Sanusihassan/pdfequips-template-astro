@@ -6,6 +6,7 @@ import { Tooltip } from "react-tooltip";
 import type { downloadFile } from "../src/content";
 import { useEffect } from "react";
 import { useFileStore } from "../src/file-store";
+import { increaseDailySiteUsage } from "../src/utils";
 const DownloadFile = ({
   lang,
   downloadFile,
@@ -20,18 +21,22 @@ const DownloadFile = ({
   const showDownloadBtn = useSelector(
     (state: { tool: ToolState }) => state.tool.showDownloadBtn
   );
-  useEffect(() => { }, [downloadFile, showDownloadBtn]);
+  const subscriptionStatus = useSelector(
+    (state: { tool: ToolState }) => state.tool.subscriptionStatus
+  );
+  useEffect(() => {}, [downloadFile, showDownloadBtn]);
   return (
     <div
-      className={`download-page flex-column align-items-center justify-content-center text-center${showDownloadBtn ? " d-flex" : " d-none"
-        }`}
+      className={`download-page flex-column align-items-center justify-content-center text-center${
+        showDownloadBtn ? " d-flex" : " d-none"
+      }`}
     >
       <h3 className="text-center mb-4">
         <bdi>
           {downloadFile.titles &&
             downloadFile.titles[path as keyof typeof downloadFile.titles] &&
             downloadFile.titles[path as keyof typeof downloadFile.titles][
-            files && files.length > 1 ? 0 : 1
+              files && files.length > 1 ? 0 : 1
             ]}
         </bdi>
       </h3>
@@ -57,6 +62,7 @@ const DownloadFile = ({
             if (downloadBtn?.current) {
               downloadBtn.current.click();
             }
+            increaseDailySiteUsage();
           }}
         >
           <DownloadIcon className="icon text-white mr-2" />
@@ -64,7 +70,7 @@ const DownloadFile = ({
             {downloadFile.btnText &&
               downloadFile.btnText[path as keyof typeof downloadFile.btnText] &&
               downloadFile.btnText[path as keyof typeof downloadFile.btnText][
-              files && files.length > 1 ? 0 : 1
+                files && files.length > 1 ? 0 : 1
               ]}
           </bdi>
         </button>

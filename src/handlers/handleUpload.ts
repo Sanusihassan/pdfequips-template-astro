@@ -1,4 +1,3 @@
-// when downloaded, if any settings changed allow refetch.
 import axios from "axios";
 
 import { downloadConvertedFile } from "../downloadFile";
@@ -8,6 +7,7 @@ import { resetErrorMessage, setField } from "../store";
 import type { Action, Dispatch } from "@reduxjs/toolkit/react";
 import { unpackArrayBuffer } from "../utils";
 let filesOnSubmit = [];
+let prevState = null;
 export const handleUpload = async (
   e: React.FormEvent<HTMLFormElement>,
   downloadBtn: RefObject<HTMLAnchorElement>,
@@ -41,11 +41,17 @@ export const handleUpload = async (
     filesOnSubmit.includes(fileName)
   );
 
-  if (allFilesPresent && files.length === filesOnSubmit.length) {
+  if (
+    allFilesPresent &&
+    files.length === filesOnSubmit.length &&
+    prevState === JSON.stringify(state)
+  ) {
     dispatch(setField({ showDownloadBtn: true }));
     dispatch(resetErrorMessage());
     return;
   }
+
+  prevState = JSON.stringify(state);
 
   const formData = new FormData();
   for (let i = 0; i < files.length; i++) {
@@ -54,8 +60,6 @@ export const handleUpload = async (
   formData.append("rotations", JSON.stringify(state.rotations));
   formData.append("userId", state.userId);
   formData.append("passwords", JSON.stringify(state.passwords));
-
-  console.log(state.passwords);
   let url: string = "";
   // @ts-ignore
   if (process.env.NODE_ENV === "development") {

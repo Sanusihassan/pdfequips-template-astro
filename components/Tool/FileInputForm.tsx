@@ -54,7 +54,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
   useEffect(() => {
     (async () => {
       const user = await getUserInfo();
-      setUserId(user.id);
+      setUserId(user?.id || null);
     })();
     setFileInput(fileInput);
     setSubmitBtn(submitBtn);

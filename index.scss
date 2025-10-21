@@ -1,7 +1,7 @@
 @import "/node_modules/pdfequips-navbar/scss/navbar";
 
 %debug {
-    outline: 1px solid;
+  outline: 1px solid;
 }
 
 @import "./scss/minxins";
@@ -9,117 +9,113 @@
 
 $pdf-color: #fc271c;
 $color-map: (
-    "merge-pdf": $pdf-color,
-    "split-pdf": #fd7e14,
-    "compress-pdf": #28a745,
-    "pdf-to-powerpoint": #c13b1b,
-    "jpg-to-pdf": #f1c40f,
-    "word-to-pdf": #1b5ebe,
-    "powerpoint-to-pdf": #c13b1b,
-    "excel-to-pdf": #10793f,
-    "web-to-pdf": #0984e3,
-    "pdf-to-text": #4493e1,
-    "html-to-pdf": rgb(228, 77, 38),
-    "pdf-to-jpg": #f1c40f,
-    "pdf-to-word": #1b5ebe,
-    "pdf-to-excel": #10793f,
-    "pdf-to-pdf-a": #000000,
-    "pdf-to-html": rgb(228, 77, 38),
-    "pdf-to-markdown": #000000,
-    "translate-pdf": #185abc,
-    "merge-pages": #27ae60
+  "merge-pdf": $pdf-color,
+  "split-pdf": #fd7e14,
+  "compress-pdf": #28a745,
+  "pdf-to-powerpoint": #c13b1b,
+  "jpg-to-pdf": #f1c40f,
+  "word-to-pdf": #1b5ebe,
+  "powerpoint-to-pdf": #c13b1b,
+  "excel-to-pdf": #10793f,
+  "web-to-pdf": #0984e3,
+  "pdf-to-text": #4493e1,
+  "html-to-pdf": rgb(228, 77, 38),
+  "pdf-to-jpg": #f1c40f,
+  "pdf-to-word": #1b5ebe,
+  "pdf-to-excel": #10793f,
+  "pdf-to-pdf-a": #000000,
+  "pdf-to-html": rgb(228, 77, 38),
+  "pdf-to-markdown": #000000,
+  "translate-pdf": #185abc,
+  "merge-pages": #27ae60,
 );
 
 body {
-    @include ar-wrapper {
-        text-align: right !important;
-    }
+  @include ar-wrapper {
+    text-align: right !important;
+  }
 
-    font-family: "Raleway",
-    sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .tools-page {
-    min-height: fit-content;
+  min-height: fit-content;
 }
 
 .h-5,
 .icon {
-    height: 1em;
+  height: 1em;
 }
 
 .w-5,
 .icon {
-    width: 1em;
+  width: 1em;
 }
 
 .object-fit-cover {
-    object-fit: cover;
-    object-position: center;
+  object-fit: cover;
+  object-position: center;
 }
 
 .object-fit-contain {
-    object-fit: contain;
-    object-position: center;
+  object-fit: contain;
+  object-position: center;
 }
 
 .img-fluid-custom {
-    max-width: 100%;
-    height: 100%;
-    z-index: 0;
+  max-width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 .bdi,
 a.dropdown-item {
-    unicode-bidi: isolate;
+  unicode-bidi: isolate;
 }
 
 @media (min-width: 992px) {
-    .drop-down-container {
-        flex-wrap: nowrap !important;
-    }
+  .drop-down-container {
+    flex-wrap: nowrap !important;
+  }
 }
 
 /* tools page */
 
 .tools {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    height: 69vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 69vh;
 }
 
 .dropdown-item {
-
-    &.active,
-    &:active {
-        background-color: initial !important;
-        color: #212529 !important;
-    }
+  &.active,
+  &:active {
+    background-color: initial !important;
+    color: #212529 !important;
+  }
 }
 
 .react-tooltip {
-    z-index: 100;
+  z-index: 100;
 }
 
 // error element styles
 .error-element {
-    .hide-on-rtl {
-
-        [dir="rtl"] &,
-        [lang="ar"] & {
-            display: none;
-        }
+  .hide-on-rtl {
+    [dir="rtl"] &,
+    [lang="ar"] & {
+      display: none;
     }
+  }
 
-    .hide-on-rtl {
-
-        [dir="ltr"] &,
-        :not([lang="ar"]) & {
-            display: none;
-        }
+  .hide-on-rtl {
+    [dir="ltr"] &,
+    :not([lang="ar"]) & {
+      display: none;
     }
+  }
 }
 
 @import "./scss/toolspage";
@@ -129,22 +125,24 @@ a.dropdown-item {
 @import "./scss/features";
 
 .how-to {
-    .image {
-        img {
-            user-select: none;
-            -webkit-user-drag: none;
-        }
+  .image {
+    img {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+  }
+
+  .how-to-steps {
+    @include xs {
+      text-align: center;
     }
 
-    .how-to-steps {
-        @include xs {
-            text-align: center;
-        }
-
-        ol {
-            list-style: none
-        }
+    ol {
+      list-style: none;
     }
+  }
 }
-
+.cta-btn {
+  width: auto !important;
+}
 @import "pdfequips-footer/scss/footer";

@@ -67,7 +67,7 @@ const EditPage = ({
           drop_files={drop_files}
           edit_page={edit_page}
         />
-        <ErrorElement />
+        <ErrorElement cta={edit_page.options.cta} />
         <AddMoreButton
           onClick={() => {
             if (fileInput) {
@@ -102,11 +102,11 @@ const EditPage = ({
         </h5>
         <Options content={edit_page.options} />
         <div className="hide-onsmall">
-          <SubmitBtn k={path} edit_page={edit_page} />
+          <SubmitBtn k={path} edit_page={edit_page} errors={errors} />
         </div>
       </section>
       <div className="show-onsmall">
-        <SubmitBtn k={path} edit_page={edit_page} />
+        <SubmitBtn k={path} edit_page={edit_page} errors={errors} />
       </div>
     </aside>
   );

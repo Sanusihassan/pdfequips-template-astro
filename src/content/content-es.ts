@@ -19,18 +19,22 @@ export const tool: _tool = {
     features: [
       {
         title: "Completamente gratis y sin registro",
-        description: "PDFEquips ofrece un servicio gratuito en línea para combinar archivos PDF. No es necesario crear una cuenta, y nunca solicitamos su dirección de correo electrónico ni información de tarjeta de crédito."
+        description:
+          "PDFEquips ofrece un servicio gratuito en línea para combinar archivos PDF. No es necesario crear una cuenta, y nunca solicitamos su dirección de correo electrónico ni información de tarjeta de crédito.",
       },
       {
         title: "Herramienta sólida para fusionar PDFs",
-        description: "PDFEquips combina fácilmente dos o más documentos PDF en un archivo, ya sea una sola página o varias páginas, archivos PDF grandes o pequeños, todos los formatos son compatibles."
+        description:
+          "PDFEquips combina fácilmente dos o más documentos PDF en un archivo, ya sea una sola página o varias páginas, archivos PDF grandes o pequeños, todos los formatos son compatibles.",
       },
       {
         title: "Fusionar archivos PDF en línea de forma segura",
-        description: "Todos los archivos que cargue y cree en nuestros servidores están cifrados por razones de seguridad utilizando TLS. Se eliminarán inmediata y permanentemente después del procesamiento. Para obtener más información, consulte nuestra política de privacidad."
-      }
+        description:
+          "Todos los archivos que cargue y cree en nuestros servidores están cifrados por razones de seguridad utilizando TLS. Se eliminarán inmediata y permanentemente después del procesamiento. Para obtener más información, consulte nuestra política de privacidad.",
+      },
     ],
-    keywords: "combinar PDF, herramientas para combinar PDF, fusionar archivos PDF, combinar documentos PDF, combinar PDF en línea, combinar PDF sin registro, combinar PDF gratis, combinar múltiples archivos PDF, combinar PDF rápidamente, combinar PDF de manera segura, combinar documentos PDF fácilmente, combinar PDF en línea gratis, combinar PDF sin instalación, combinar archivos PDF cifrados, herramientas gratuitas para combinar PDF, combinar PDF en línea sin registro"
+    keywords:
+      "combinar PDF, herramientas para combinar PDF, fusionar archivos PDF, combinar documentos PDF, combinar PDF en línea, combinar PDF sin registro, combinar PDF gratis, combinar múltiples archivos PDF, combinar PDF rápidamente, combinar PDF de manera segura, combinar documentos PDF fácilmente, combinar PDF en línea gratis, combinar PDF sin instalación, combinar archivos PDF cifrados, herramientas gratuitas para combinar PDF, combinar PDF en línea sin registro",
   },
 };
 
@@ -56,17 +60,23 @@ export const edit_page: _edit_page = {
     label: "Nombre del archivo de salida (opcional)",
     placeholder: "Ingrese el nombre del archivo",
     helperText: "Este será el nombre del PDF combinado al descargarlo.",
-    cta: "Ver planes"
-  }
+    cta: "Ver planes",
+  },
 };
 
 export const downloadFile: _downloadFile = {
   titles: {
-    "merge-pdf": ["¡Los archivos PDF se han combinado!", "¡El archivo PDF se ha combinado!"],
+    "merge-pdf": [
+      "¡Los archivos PDF se han combinado!",
+      "¡El archivo PDF se ha combinado!",
+    ],
   },
 
   btnText: {
-    "merge-pdf": ["Descargar archivos PDF combinados", "Descargar archivo PDF combinado"],
+    "merge-pdf": [
+      "Descargar archivos PDF combinados",
+      "Descargar archivo PDF combinado",
+    ],
   },
 
   backto: {
@@ -153,6 +163,20 @@ export const errors: _errors = {
     maxFiles: "Máximo 50 archivos. ¡Suscríbete para más!",
     totalPages: "Máximo 1,500 páginas. ¡Actualiza ahora!",
     perFilePages: "500 páginas por archivo. ¡Desbloquea más ahora!",
-    fileSize: "50 MB por archivo. ¡Mejora para obtener más!"
+    fileSize: "50 MB por archivo. ¡Mejora para obtener más!",
+  },
+  PASSWORD_REQUIRED: {
+    message: "El PDF requiere una contraseña.",
+    code: "PASSWORD_REQUIRED",
+  },
+
+  INCORRECT_PASSWORD: {
+    message: "La contraseña que ingresaste es incorrecta.",
+    code: "INCORRECT_PASSWORD",
+  },
+  MAX_DAILY_USAGE: {
+    message:
+      "Has alcanzado tu límite de uso diario. Por favor, actualiza tu plan para seguir usando esta función sin interrupciones.",
+    code: "MAX_DAILY_USAGE",
   },
 };

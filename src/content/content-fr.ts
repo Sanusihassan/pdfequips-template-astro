@@ -20,18 +20,22 @@ export const tool: _tool = {
     features: [
       {
         title: "Complètement gratuit et sans inscription",
-        description: "PDFEquips offre un service de fusion de PDF en ligne gratuit. Il n'est pas nécessaire de créer un compte, et nous ne demandons jamais votre adresse e-mail ou vos informations de carte de crédit."
+        description:
+          "PDFEquips offre un service de fusion de PDF en ligne gratuit. Il n'est pas nécessaire de créer un compte, et nous ne demandons jamais votre adresse e-mail ou vos informations de carte de crédit.",
       },
       {
         title: "Outil robuste pour fusionner des PDF",
-        description: "PDFEquips combine facilement deux ou plusieurs documents PDF en un seul fichier, que ce soit une seule page ou plusieurs pages, des fichiers PDF grands ou petits, tous les formats sont compatibles."
+        description:
+          "PDFEquips combine facilement deux ou plusieurs documents PDF en un seul fichier, que ce soit une seule page ou plusieurs pages, des fichiers PDF grands ou petits, tous les formats sont compatibles.",
       },
       {
         title: "Fusionnez des fichiers PDF en ligne en toute sécurité",
-        description: "Tous les fichiers que vous téléchargez et créez sur nos serveurs sont cryptés pour des raisons de sécurité en utilisant TLS. Ils seront immédiatement et définitivement supprimés après le traitement. Pour plus d'informations, veuillez consulter notre politique de confidentialité."
-      }
+        description:
+          "Tous les fichiers que vous téléchargez et créez sur nos serveurs sont cryptés pour des raisons de sécurité en utilisant TLS. Ils seront immédiatement et définitivement supprimés après le traitement. Pour plus d'informations, veuillez consulter notre politique de confidentialité.",
+      },
     ],
-    keywords: "fusionner PDF, outils de fusion PDF, fusionner des fichiers PDF, fusionner des documents PDF, fusionner PDF en ligne, fusionner PDF sans inscription, fusionner PDF gratuitement, fusionner plusieurs fichiers PDF, fusionner PDF rapidement, fusionner PDF en toute sécurité, fusionner des documents PDF facilement, fusionner PDF en ligne gratuitement, fusionner PDF sans installation, fusionner des fichiers PDF chiffrés, outils gratuits pour fusionner PDF, fusionner PDF en ligne sans inscription"
+    keywords:
+      "fusionner PDF, outils de fusion PDF, fusionner des fichiers PDF, fusionner des documents PDF, fusionner PDF en ligne, fusionner PDF sans inscription, fusionner PDF gratuitement, fusionner plusieurs fichiers PDF, fusionner PDF rapidement, fusionner PDF en toute sécurité, fusionner des documents PDF facilement, fusionner PDF en ligne gratuitement, fusionner PDF sans installation, fusionner des fichiers PDF chiffrés, outils gratuits pour fusionner PDF, fusionner PDF en ligne sans inscription",
   },
 };
 
@@ -57,17 +61,23 @@ export const edit_page: _edit_page = {
     label: "Nom du fichier de sortie (facultatif)",
     placeholder: "Entrez le nom du fichier",
     helperText: "Ce sera le nom du PDF fusionné lors du téléchargement.",
-    cta: "Voir les forfaits"
-  }
+    cta: "Voir les forfaits",
+  },
 };
 
 export const downloadFile: _downloadFile = {
   titles: {
-    "merge-pdf": ["Les fichiers PDF ont été fusionnés !", "Le fichier PDF a été fusionné !"],
+    "merge-pdf": [
+      "Les fichiers PDF ont été fusionnés !",
+      "Le fichier PDF a été fusionné !",
+    ],
   },
 
   btnText: {
-    "merge-pdf": ["Télécharger les fichiers PDF fusionnés", "Télécharger le fichier PDF fusionné"],
+    "merge-pdf": [
+      "Télécharger les fichiers PDF fusionnés",
+      "Télécharger le fichier PDF fusionné",
+    ],
   },
 
   backto: {
@@ -154,6 +164,20 @@ export const errors: _errors = {
     maxFiles: "Maximum 50 fichiers. Abonnez-vous pour plus!",
     totalPages: "Maximum 1 500 pages. Mettez à niveau maintenant!",
     perFilePages: "500 pages par fichier. Débloquez-en plus maintenant!",
-    fileSize: "50 Mo par fichier. Passez à la version supérieure!"
+    fileSize: "50 Mo par fichier. Passez à la version supérieure!",
+  },
+  PASSWORD_REQUIRED: {
+    message: "Le PDF nécessite un mot de passe.",
+    code: "PASSWORD_REQUIRED",
+  },
+
+  INCORRECT_PASSWORD: {
+    message: "Le mot de passe que vous avez saisi est incorrect.",
+    code: "INCORRECT_PASSWORD",
+  },
+  MAX_DAILY_USAGE: {
+    message:
+      "Vous avez atteint votre limite d’utilisation quotidienne. Veuillez mettre à niveau votre forfait pour continuer à utiliser cette fonctionnalité sans interruption.",
+    code: "MAX_DAILY_USAGE",
   },
 };

@@ -17,6 +17,7 @@ export interface ToolState {
   limitationMsg: string;
   rotations: { k: string; r: number }[];
   passwords: { k: string; p: string }[];
+  subscriptionStatus: boolean | null;
 }
 
 const initialState: ToolState = {
@@ -31,6 +32,7 @@ const initialState: ToolState = {
   limitationMsg: "",
   rotations: [],
   passwords: [],
+  subscriptionStatus: null,
 };
 
 const toolSlice = createSlice({
