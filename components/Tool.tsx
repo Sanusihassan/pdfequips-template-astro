@@ -7,9 +7,10 @@ import { FileInputForm } from "./Tool/FileInputForm";
 import DownloadFile from "./DownloadFile";
 import { useFileStore } from "../src/file-store";
 import { setField } from "../src/store";
-import { filterNewFiles, ACCEPTED } from "../src/utils";
+import { filterNewFiles, ACCEPTED, validateFiles } from "../src/utils";
 import { fetchSubscriptionStatus } from "fetch-subscription-status";
 import type { edit_page } from "../src/content";
+import { ToastContainer, Bounce } from "react-toastify";
 
 export type errorType = {
   response: {
@@ -68,9 +69,17 @@ const Tool: React.FC<ToolProps> = ({
   }, [stateShowTool]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    const { isValid } = validateFiles(
+      acceptedFiles,
+      dispatch,
+      errors,
+      "application/pdf"
+    );
     const newFiles = filterNewFiles(acceptedFiles, files, ACCEPTED);
-    setFiles(newFiles);
-    handleHideTool();
+    if (isValid) {
+      setFiles(newFiles);
+      handleHideTool();
+    }
   }, []);
 
   const handlePaste = useCallback(
@@ -177,6 +186,19 @@ const Tool: React.FC<ToolProps> = ({
         />
         <DownloadFile lang={lang} downloadFile={downloadFile} path={path} />
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 };

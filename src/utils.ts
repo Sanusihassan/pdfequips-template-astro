@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { type Action, type Dispatch } from "@reduxjs/toolkit";
 import type { errors as _ } from "./content";
-import { setField } from "./store";
+import { resetErrorMessage, setField } from "./store";
 import * as pdfjs from "pdfjs-dist";
 import Cookies from "js-cookie";
 
@@ -10,6 +10,7 @@ import {
   type PageViewport,
   type RenderTask,
 } from "pdfjs-dist";
+import { toast } from "react-toastify";
 // @ts-ignore
 const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
 // pdfjs.GlobalWorkerOptions = pdfjs.GlobalWorkerOptions || {};
@@ -255,76 +256,6 @@ export function genericFileValidation(
   return null;
 }
 
-export const validateFiles = (
-  _files: FileList | File[],
-  extension: string,
-  errors: _,
-  dispatch: Dispatch<Action>
-) => {
-  const files = Array.from(_files); // convert FileList to File[] array
-
-  let allowedMimeTypes = ["application/pdf"];
-  if (files.length == 0) {
-    dispatch(setField({ errorMessage: errors.NO_FILES_SELECTED.message }));
-    dispatch(setField({ errorCode: "ERR_NO_FILES_SELECTED" }));
-    return false;
-  }
-  const fileSizeLimit = 50 * 1024 * 1024; // 50 MB
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i] || null;
-    extension = extension.replace(".", "").toUpperCase();
-    let file_extension = file.name.split(".").pop()?.toUpperCase() || "";
-    // this contains all types and some special types that might potentially be of than one extension
-    const types = ["pdf"];
-
-    if (!file || !file.name) {
-      // handle FILE_CORRUPT error
-      dispatch(setField({ errorMessage: errors.FILE_CORRUPT.message }));
-      return false;
-    } else if (!file.type) {
-      // handle NOT_SUPPORTED_TYPE error
-      dispatch(setField({ errorMessage: errors.NOT_SUPPORTED_TYPE.message }));
-      return false;
-    } else if (
-      !allowedMimeTypes.includes(file.type) ||
-      !types.includes(file_extension.toLowerCase())
-    ) {
-      const errorMessage =
-        errors.NOT_SUPPORTED_TYPE.types[
-          extension as keyof typeof errors.NOT_SUPPORTED_TYPE.types
-        ] || errors.NOT_SUPPORTED_TYPE.message;
-      dispatch(setField({ errorMessage: errorMessage }));
-      return false;
-    } else if (file.size > fileSizeLimit) {
-      // handle FILE_TOO_LARGE error
-      dispatch(setField({ errorMessage: errors.FILE_TOO_LARGE.message }));
-      return false;
-    } else if (!file.size) {
-      // handle EMPTY_FILE error
-
-      dispatch(setField({ errorMessage: errors.EMPTY_FILE.message }));
-      dispatch(setField({ errorCode: "ERR_EMPTY_FILE" }));
-      return false;
-    } else if (file.type.startsWith("image/")) {
-      // handle INVALID_IMAGE_DATA error
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const img = new Image();
-        img.src = reader.result as string;
-        img.onerror = () => {
-          dispatch(
-            setField({ errorMessage: errors.INVALID_IMAGE_DATA.message })
-          );
-          return false;
-        };
-      };
-      return true;
-    }
-  }
-  return true;
-};
-
 interface PDFFile extends Blob {
   name: string;
 }
@@ -502,4 +433,43 @@ export const increaseDailySiteUsage = (amount: number = 1): number => {
   });
 
   return usageData[today];
+};
+
+export const validateFiles = (
+  filesToValidate: File[],
+  dispatch: Dispatch<Action>,
+  errors: _,
+  mimetype: "application/pdf"
+): { isValid: boolean } => {
+  const errorCode =
+    filesToValidate
+      .map((file) => genericFileValidation(file, mimetype))
+      .find((result) => result !== null) || null;
+  let tid = null;
+  if (errorCode) {
+    dispatch(setField({ errorCode }));
+    let errMsg = "";
+
+    if (errorCode === "EMPTY_FILE") {
+      errMsg = errors.EMPTY_FILE.message;
+    } else if (errorCode === "FILE_CORRUPT") {
+      errMsg = errors.FILE_CORRUPT.message;
+    } else if (errorCode === "NO_FILES_SELECTED") {
+      errMsg = errors.NO_FILES_SELECTED.message;
+    } else if (errorCode === "NOT_SUPPORTED_TYPE") {
+      errMsg = errors.NOT_SUPPORTED_TYPE.message;
+    } else if (errorCode === "UNKNOWN_ERROR") {
+      errMsg = errors.UNKNOWN_ERROR.message;
+    }
+
+    tid = toast(errMsg);
+
+    return { isValid: false };
+  }
+
+  dispatch(setField({ showTool: false }));
+  dispatch(resetErrorMessage());
+  toast.dismiss(tid);
+
+  return { isValid: true };
 };

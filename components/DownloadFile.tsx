@@ -62,7 +62,9 @@ const DownloadFile = ({
             if (downloadBtn?.current) {
               downloadBtn.current.click();
             }
-            increaseDailySiteUsage();
+            if (!subscriptionStatus) {
+              increaseDailySiteUsage();
+            }
           }}
         >
           <DownloadIcon className="icon text-white mr-2" />

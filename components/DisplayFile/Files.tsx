@@ -12,13 +12,13 @@ import {
   calculatePages,
   filterNewFiles,
   isDraggableExtension,
+  validateFiles,
 } from "../../src/utils";
 import { useFileStore } from "../../src/file-store";
 import { useDispatch } from "react-redux";
 import { setField, type ToolState } from "../../src/store";
 import { useSelector } from "react-redux";
 import { fetchSubscriptionStatus } from "fetch-subscription-status";
-// import { fetchSubscriptionStatus } from "fetch-subscription-status";
 
 type FileProps = {
   errors: _;
@@ -126,8 +126,16 @@ const Files = ({
     setIsDraggingFiles(false);
 
     const droppedFiles = Array.from(e.dataTransfer.files);
-    const newFiles = filterNewFiles(droppedFiles, files, ACCEPTED);
-    setFiles([...files, ...newFiles]);
+    const { isValid } = validateFiles(
+      droppedFiles,
+      dispatch,
+      errors,
+      "application/pdf"
+    );
+    if (isValid) {
+      const newFiles = filterNewFiles(droppedFiles, files, ACCEPTED);
+      setFiles([...files, ...newFiles]);
+    }
   };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {

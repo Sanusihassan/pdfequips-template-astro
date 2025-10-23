@@ -1,14 +1,11 @@
 import { Provider as ReduxProvider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import toolReducer, { setField } from "../src/store";
+import toolReducer from "../src/store";
 import { Tool as ToolComponent, type ToolProps } from "./Tool";
 import { type _howToSchema } from "../src/how-to/how-to";
 import { Features } from "./Features";
 import type { WithContext, HowTo as HowToType } from "schema-dts";
 import HowTo from "./HowTo";
-import { fetchSubscriptionStatus } from "fetch-subscription-status";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 export const store = configureStore({
   reducer: {
