@@ -466,10 +466,12 @@ export const validateFiles = (
 
     return { isValid: false };
   }
+  if (filesToValidate.length) {
+    dispatch(setField({ showTool: false }));
+    dispatch(resetErrorMessage());
+    toast.dismiss(tid);
+    return { isValid: true };
+  }
 
-  dispatch(setField({ showTool: false }));
-  dispatch(resetErrorMessage());
-  toast.dismiss(tid);
-
-  return { isValid: true };
+  return { isValid: false };
 };

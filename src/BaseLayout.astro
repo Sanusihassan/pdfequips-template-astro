@@ -6,63 +6,63 @@ let dir = "ltr";
 let locale;
 
 switch (lang) {
-    case "ar":
-        break;
-    case "es":
-        break;
-    case "fr":
-        break;
-    case "hi":
-        break;
-    case "zh":
-        break;
-    default:
-        break;
+  case "ar":
+    break;
+  case "es":
+    break;
+  case "fr":
+    break;
+  case "hi":
+    break;
+  case "zh":
+    break;
+  default:
+    break;
 }
 
 // Determine language and direction based on URL path
 if (pathname.startsWith("/ar")) {
-    lang = "ar";
-    dir = "rtl";
-    locale = "ar_AR";
+  lang = "ar";
+  dir = "rtl";
+  locale = "ar_AR";
 } else if (pathname.startsWith("/es")) {
-    lang = "es";
-    locale = "es_ES";
+  lang = "es";
+  locale = "es_ES";
 } else if (pathname.startsWith("/fr")) {
-    lang = "fr";
-    locale = "fr_FR";
+  lang = "fr";
+  locale = "fr_FR";
 } else if (pathname.startsWith("/hi")) {
-    lang = "hi";
-    locale = "hi_IN";
+  lang = "hi";
+  locale = "hi_IN";
 } else if (pathname.startsWith("/zh")) {
-    lang = "zh";
-    locale = "zh_CN";
+  lang = "zh";
+  locale = "zh_CN";
 }
 const seoConfig = {
+  title: seoTitle,
+  description: description,
+  canonical: `https://www.pdfequips.com/${to}`,
+  openGraph: {
+    url: `https://www.pdfequips.com/${to}`,
     title: seoTitle,
     description: description,
-    canonical: `https://www.pdfequips.com/${to}`,
-    openGraph: {
-        url: `https://www.pdfequips.com/${to}`,
-        title: seoTitle,
-        description: description,
-        images: [
-            {
-                url: `https://www.pdfequips.com/images/${to}.png`,
-                width: 1200,
-                height: 630,
-                alt: title,
-                type: "image/png",
-            },
-        ],
-        site_name: "PDFEquips",
-        locale: locale || "en_US",
-    },
-    twitter: {
-        handle: "@pdfequips",
-        site: "@pdfequips",
-        cardType: "summary_large_image",
-    },
+    images: [
+      {
+        url: `https://www.pdfequips.com/images/${to}.png`,
+        width: 1200,
+        height: 630,
+        alt: title,
+        type: "image/png",
+      },
+    ],
+    site_name: "PDFEquips",
+    locale: locale || "en_US",
+  },
+  twitter: {
+    handle: "@pdfequips",
+    site: "@pdfequips",
+    cardType: "summary_large_image",
+  },
 };
 
 import { AstroSeo } from "@astrolib/seo";
@@ -76,36 +76,36 @@ import { howToSchema } from "./how-to/how-to";
 
 <!doctype html>
 <html lang={lang} dir={dir}>
-    <head>
-        <AstroSeo {...seoConfig} />
-        <Schema item={howToSchema} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet"
-        />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#FC271C" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/svg+xml" href="/images/icons/logo.svg" />
+  <head>
+    <AstroSeo {...seoConfig} />
+    <Schema item={howToSchema} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FC271C" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/images/icons/logo.svg" />
 
-        <!-- bootstrap cdn -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-            crossorigin="anonymous"
-        />
+    <!-- bootstrap cdn -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
 
-        <slot name="head" />
-    </head>
-    <body>
-        <main>
-            <Navbar client:load lang={lang} path={to} />
-            <slot />
-            <Footer client:load title={title} lang={lang} />
-        </main>
-    </body>
+    <slot name="head" />
+  </head>
+  <body>
+    <main>
+      <Navbar client:load lang={lang} path={to.replace("/", "")} />
+      <slot />
+      <Footer client:load title={title} lang={lang} />
+    </main>
+  </body>
 </html>
