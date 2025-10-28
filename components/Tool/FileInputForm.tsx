@@ -119,9 +119,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
             e.stopPropagation();
           }}
           onChange={(e) => {
-            handleChange(e, dispatch, setFiles, data.type, errors, files, {
-              path,
-            });
+            handleChange(e, dispatch, setFiles, errors, files);
           }}
         />
       </div>

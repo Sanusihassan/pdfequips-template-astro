@@ -103,7 +103,11 @@ import { howToSchema } from "./how-to/how-to";
   </head>
   <body>
     <main>
-      <Navbar client:load lang={lang} path={to.replace("/", "")} />
+      <Navbar
+        client:load
+        lang={lang === "en" ? "" : lang}
+        path={to.replace("/", "")}
+      />
       <slot />
       <Footer client:load title={title} lang={lang} />
     </main>
