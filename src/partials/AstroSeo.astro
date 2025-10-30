@@ -1,0 +1,93 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  openGraph?: {
+    url?: string;
+    title?: string;
+    description?: string;
+    images?: Array<{
+      url: string;
+      width?: number;
+      height?: number;
+      alt?: string;
+      type?: string;
+    }>;
+    site_name?: string;
+    locale?: string;
+    type?: string;
+  };
+  twitter?: {
+    handle?: string;
+    site?: string;
+    cardType?: string;
+  };
+}
+
+const { title, description, openGraph, twitter } = Astro.props;
+---
+
+<!-- Basic Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<!-- Open Graph Meta Tags -->
+{
+  openGraph && (
+    <>
+      <meta property="og:type" content={openGraph.type || "website"} />
+      {openGraph.url && <meta property="og:url" content={openGraph.url} />}
+      <meta property="og:title" content={openGraph.title || title} />
+      <meta
+        property="og:description"
+        content={openGraph.description || description}
+      />
+      {openGraph.site_name && (
+        <meta property="og:site_name" content={openGraph.site_name} />
+      )}
+      {openGraph.locale && (
+        <meta property="og:locale" content={openGraph.locale} />
+      )}
+      {openGraph.images?.map((image) => (
+        <>
+          <meta property="og:image" content={image.url} />
+          {image.width && (
+            <meta property="og:image:width" content={image.width.toString()} />
+          )}
+          {image.height && (
+            <meta
+              property="og:image:height"
+              content={image.height.toString()}
+            />
+          )}
+          {image.alt && <meta property="og:image:alt" content={image.alt} />}
+          {image.type && <meta property="og:image:type" content={image.type} />}
+        </>
+      ))}
+    </>
+  )
+}
+
+<!-- Twitter Card Meta Tags -->
+{
+  twitter && (
+    <>
+      <meta
+        name="twitter:card"
+        content={twitter.cardType || "summary_large_image"}
+      />
+      {twitter.site && <meta name="twitter:site" content={twitter.site} />}
+      {twitter.handle && (
+        <meta name="twitter:creator" content={twitter.handle} />
+      )}
+      <meta name="twitter:title" content={openGraph?.title || title} />
+      <meta
+        name="twitter:description"
+        content={openGraph?.description || description}
+      />
+      {openGraph?.images?.[0] && (
+        <meta name="twitter:image" content={openGraph.images[0].url} />
+      )}
+    </>
+  )
+}

@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../../BaseLayout.astro";
+import BaseLayout from "../../partials/BaseLayout.astro";
 import {
-    downloadFile,
-    edit_page,
-    errors,
-    tool,
-    tools,
+  downloadFile,
+  edit_page,
+  errors,
+  tool,
+  tools,
 } from "../../content/content-fr";
 const { title, description, seoTitle, to } = tool.Merge_PDF;
 import { Provider as ReduxProvider } from "react-redux";
@@ -14,28 +14,28 @@ import toolReducer from "../../store";
 import { ToolWrapper } from "../../../components/ToolWrapper";
 import { howToSchema } from "../../how-to/how-to-fr";
 export const store = configureStore({
-    reducer: {
-        tool: toolReducer,
-    },
+  reducer: {
+    tool: toolReducer,
+  },
 });
 ---
 
-<BaseLayout title={title} description={description} seoTitle={seoTitle} to={to}>
-    <ReduxProvider store={store}>
-        <ToolWrapper
-            client:load
-            tools={tools}
-            data={tool.Merge_PDF}
-            lang=""
-            errors={errors}
-            edit_page={edit_page}
-            pages={edit_page.pages}
-            page={edit_page.page}
-            downloadFile={downloadFile}
-            features={tool.Merge_PDF.features}
-            howTo={howToSchema}
-            to={to}
-            seoTitle={seoTitle}
-        />
-    </ReduxProvider>
+<BaseLayout seoConfig={tool.Merge_PDF}>
+  <ReduxProvider store={store}>
+    <ToolWrapper
+      client:load
+      tools={tools}
+      data={tool.Merge_PDF}
+      lang=""
+      errors={errors}
+      edit_page={edit_page}
+      pages={edit_page.pages}
+      page={edit_page.page}
+      downloadFile={downloadFile}
+      features={tool.Merge_PDF.features}
+      howTo={howToSchema}
+      to={to}
+      seoTitle={seoTitle}
+    />
+  </ReduxProvider>
 </BaseLayout>
