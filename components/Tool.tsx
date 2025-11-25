@@ -116,7 +116,7 @@ const Tool: React.FC<ToolProps> = ({
   useEffect(() => {
     (async () => {
       const status = await fetchSubscriptionStatus();
-      dispatch(setField({ SubscriptionStatus: status }));
+      dispatch(setField({ subscriptionStatus: status }));
       if (!status) {
         const head = document.head;
 
