@@ -52,22 +52,6 @@
   %show-action {
     position: relative;
 
-    .action-div {
-      position: absolute;
-      z-index: 1;
-      top: 1%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 98%;
-
-      button {
-        color: var(--gray-dark);
-      }
-    }
-    .password-input-row {
-      z-index: 1;
-    }
-
     &:hover .action-div {
       opacity: 1;
     }
@@ -78,8 +62,54 @@
   }
 
   .card.item {
+    @include extend("card");
     height: 100%;
     @extend %show-action;
+    .card-body {
+      @include extend("card-body d-flex flex-column");
+      .img-fluid-custom {
+        @include extend("object-fit-contain rounded item-img");
+      }
+    }
+  }
+
+  // .action-div {
+  //     position: absolute;
+  //     z-index: 1;
+  //     top: 1%;
+  //     left: 50%;
+  //     transform: translateX(-50%);
+  //     width: 98%;
+
+  //     button {
+  //       color: var(--gray-dark);
+  //     }
+  //   }
+
+  .action-div {
+    &.justify-content-end {
+      @include extend("justify-content-end");
+    }
+    &.justify-content-between {
+      @include extend("justify-content-between");
+    }
+  }
+
+  .password-input-row {
+    z-index: 1;
+    @include extend("mt-5");
+    .input-group {
+      @include extend("input-group px-1");
+      .form-control {
+        @include extend("form-control");
+      }
+      .show-password {
+        @include extend("btn btn-outline-secondary btn-sm");
+      }
+      .submit-btn {
+        @include extend("btn btn-primary");
+      }
+    }
   }
 
   // .action-div {

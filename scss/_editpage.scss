@@ -46,7 +46,8 @@
       @include extend("w-100 placeholder-glow h-100 position-absolute");
 
       .inner-loader {
-        @include extend("placeholder col-12 fh position-absolute w-100 d-flex justify-content-center align-items-center"
+        @include extend(
+          "placeholder col-12 fh position-absolute w-100 d-flex justify-content-center align-items-center"
         );
       }
     }
@@ -92,7 +93,8 @@
     .icon-container {
       font-size: 1.5em;
       display: flex;
-      @include extend("w-100 h-100 justify-content-center align-items-center position-absolute rounded-circle"
+      @include extend(
+        "w-100 h-100 justify-content-center align-items-center position-absolute rounded-circle"
       );
       top: 0;
       left: 0;
@@ -106,13 +108,28 @@
   .options {
     border-left: 1px solid #dee2e6;
     flex: 1 0 25%;
+    .options-form {
+      @include extend("p-3 flex-fill");
+      .input-wrapper {
+        @include extend("mb-3");
+        .label {
+          @include extend("form-label fw-bold");
+        }
+        .input {
+          @include extend("form-control");
+        }
+        .helper-text {
+          @include extend("form-text text-muted");
+        }
+      }
+    }
 
     .body {
       padding: 0 15px;
     }
 
     .options-container {
-      @include extend("container")
+      @include extend("container");
     }
 
     display: flex;
@@ -121,7 +138,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    &+.show-onsmall {
+    & + .show-onsmall {
       @include extend("d-none");
       width: 100%;
       position: fixed;
@@ -133,7 +150,6 @@
         display: block !important;
       }
     }
-
 
     transition: 0.3s;
 
@@ -204,9 +220,7 @@
       $r: red($color);
       $g: green($color);
       $b: blue($color);
-      --pulse-animation-color: #{$r},
-      #{$g},
-      #{$b};
+      --pulse-animation-color: #{$r}, #{$g}, #{$b};
       animation: pulse 2s infinite;
     }
   }

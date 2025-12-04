@@ -1,13 +1,13 @@
 @mixin generateColorClasses($map) {
   @each $key, $color in $map {
     &.#{$key} {
-      background-color: $color;
+      background-color: $color !important;
 
       &:hover {
         @if $key == "PDF-to-PDF-A" or $key == "pdf-to-markdown" {
-          background-color: lighten($color, 14%);
+          background-color: lighten($color, 14%) !important;
         } @else {
-          background-color: darken($color, 13%);
+          background-color: darken($color, 13%) !important;
         }
       }
     }
@@ -15,9 +15,16 @@
 }
 
 .tools-page {
-  // overlay
+  @include extend("container-fluid position-relative");
+  .title {
+    @include extend("display-3");
+  }
+  .description {
+    @include extend("lead");
+  }
   .overlay {
     position: absolute;
+    @include extend("display-4");
     inset: 0px;
     background-color: rgb(0 0 0 / 80%);
     display: flex;
@@ -55,12 +62,34 @@
   }
   .download-page {
     min-height: 50vh;
+    @include extend(
+      "flex-column align-items-center justify-content-center text-center"
+    );
+    .download-btn-container {
+      @include extend(
+        "d-flex align-items-center justify-content-between rounded-circle"
+      );
+    }
     .back-btn {
       display: flex;
+      @include extend("btn btn-dark rounded-circle align-items-center");
+      margin-right: 0.46rem;
+      @include ar-wrapper {
+        margin-right: auto !important;
+        margin-left: 0.46rem;
+      }
       width: 40px;
       height: 40px;
       .icon {
         flex: 1;
+      }
+    }
+    .download-btn {
+      @include extend(
+        "btn btn-lg text-white position-relative overflow-hidden"
+      );
+      .icon {
+        @include extend("text-white mr-2");
       }
     }
   }
@@ -105,35 +134,12 @@
 .btn {
   @include generateColorClasses($color-map);
 }
+.upload-btn {
+  @include extend("btn btn-lg text-white position-relative overflow-hidden");
+}
 
-.translate-pdf {
-  .translate-file-selector {
-    height: 50vh;
-    %flex-centered {
-      @include extend("flex justify-content-center align-items-center");
-    }
-    .dropzone {
-      @extend %flex-centered;
-    }
-    .devider {
-      width: 2px;
-      background-color: #dee2e6;
-    }
-    .file-selector {
-      @extend %flex-centered;
-    }
-    .upload-btn {
-      input {
-        opacity: 0;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        @include extend("w-100 h-100");
-        &::-webkit-file-upload-button {
-          @include extend("w-100 h-100 d-block");
-          cursor: pointer;
-        }
-      }
-    }
-  }
+.submit-btn {
+  @include extend(
+    "btn btn-lg text-white position-relative overflow-hidden grid-footer"
+  );
 }

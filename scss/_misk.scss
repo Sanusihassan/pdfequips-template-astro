@@ -1,0 +1,45 @@
+// based on custom-bs please give me justify-content-* util classess
+
+.text-center {
+  @include extend("text-center");
+}
+
+.d-flex {
+  @include extend("d-flex");
+}
+
+.d-none {
+  @include extend("d-none");
+}
+
+.flex-column {
+  @include extend("flex-column");
+}
+
+.text-uppercase {
+  @include extend("text-uppercase");
+}
+
+.position-absolute {
+  @include extend("position-absolute");
+}
+
+.position-relative {
+  @include extend("position-relative");
+}
+
+.btn {
+  @include extend("btn");
+}
+
+.btn-light {
+  @include extend("btn-light");
+}
+
+.text-white {
+  @include extend("text-white");
+}
+
+.mb-4 {
+  @include extend("mb-4");
+}

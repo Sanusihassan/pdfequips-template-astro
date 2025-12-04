@@ -9,6 +9,7 @@ import { useFileStore } from "../../src/file-store";
 // types
 import type { tools } from "../../src/content";
 import { getUserInfo } from "fetch-subscription-status";
+import Loading from "../Loading";
 type AcceptedFileTypes = {
   [key in ".pdf" | ".pptx" | ".docx" | ".xlsx" | ".jpg" | ".html"]: string;
 };
@@ -42,6 +43,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
   const passwords = useSelector(
     (state: { tool: ToolState }) => state.tool.passwords
   );
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   // file store
   const { files, setFiles, setFileInput, setDownloadBtn, setSubmitBtn } =
@@ -55,6 +57,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
     (async () => {
       const user = await getUserInfo();
       setUserId(user?.id || null);
+      setLoaded(true);
     })();
     setFileInput(fileInput);
     setSubmitBtn(submitBtn);
@@ -86,7 +89,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
       encType="multipart/form-data"
     >
       <div
-        className={`upload-btn btn btn-lg text-white position-relative overflow-hidden ${path}`}
+        className={`upload-btn ${path}`}
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -106,6 +109,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
             {tools.files}
           </bdi>
         )}
+        <Loading theme={data.to.replace("/", "")} show={!loaded} />
         <input
           type="file"
           name="files"

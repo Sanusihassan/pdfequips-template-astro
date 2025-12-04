@@ -30,7 +30,7 @@ export function SubmitBtn({
   );
   return (
     <button
-      className={`submit-btn btn btn-lg text-white position-relative overflow-hidden ${k} grid-footer`}
+      className={`submit-btn ${k}`}
       onClick={() => {
         dispatch(setField({ isSubmitted: true }));
         dispatch(setField({ showOptions: false }));

@@ -98,9 +98,8 @@ export const getFileDetailsTooltipContent = async (
         if (pageCount === 2 && lang === "ar") {
           tooltipContent += " - صفحتين</bdi>";
         } else {
-          tooltipContent += ` - ${
-            lang === "ar" && pageCount === 1 ? "" : pageCount + " "
-          }${pageCount > 1 ? pages : page}</bdi>`;
+          tooltipContent += ` - ${lang === "ar" && pageCount === 1 ? "" : pageCount + " "
+            }${pageCount > 1 ? pages : page}</bdi>`;
         }
         URL.revokeObjectURL(url);
         if (!file.size) {
@@ -116,7 +115,7 @@ export const getFileDetailsTooltipContent = async (
 
   return tooltipContent;
 };
-// on password success i want to
+
 export async function getFirstPageAsImage(
   file: File,
   dispatch: Dispatch<Action>,
@@ -133,17 +132,22 @@ export async function getFirstPageAsImage(
         password: password || undefined,
       });
 
+      let tid;
+
       // Handle password requests
       loadingTask.onPassword = (updatePassword, reason) => {
         if (reason === pdfjs.PasswordResponses.NEED_PASSWORD) {
           // First time asking for password
           if (password) {
             updatePassword(password);
+            toast.dismiss(tid);
           } else {
             dispatch(setField({ errorCode: "PASSWORD_REQUIRED" }));
+            tid = toast.error(errors.PASSWORD_REQUIRED.message);
             throw new Error("PASSWORD_REQUIRED");
           }
         } else if (reason === pdfjs.PasswordResponses.INCORRECT_PASSWORD) {
+          tid = toast.error(errors.INCORRECT_PASSWORD.message);
           dispatch(setField({ errorCode: "INCORRECT_PASSWORD" }));
           throw new Error("INCORRECT_PASSWORD");
         }

@@ -12,7 +12,9 @@ export const CTABtn = ({
   centerItem?: boolean;
 }) => {
   return (
-    <div className={`mt-2${centerItem ? " row justify-content-center" : ""}`}>
+    <div
+      className={`cta-btn mt-2${centerItem ? " row justify-content-center" : ""}`}
+    >
       <a
         href="/pricing"
         className="btn btn-primary btn-sm cta-btn"
@@ -50,20 +52,20 @@ export const Options = ({ content }: { content: edit_page["options"] }) => {
   };
 
   return (
-    <div className="p-3 flex-fill">
-      <div className="mb-3">
-        <label htmlFor="fileNameInput" className="form-label fw-bold">
+    <div className="options-form">
+      <div className="input-wrapper">
+        <label htmlFor="fileNameInput" className="label">
           {content.label}
         </label>
         <input
           type="text"
-          className="form-control"
+          className="input"
           id="fileNameInput"
           placeholder={content.placeholder}
           value={fileName}
           onChange={handleChange}
         />
-        <div className="form-text text-muted">{content.helperText}</div>
+        <div className="helper-text">{content.helperText}</div>
       </div>
       {/* Show alert if limitationMsg is set */}
       {limitationMsg ? (

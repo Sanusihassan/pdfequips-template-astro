@@ -36,6 +36,7 @@ body {
   }
 
   font-family: "Raleway", sans-serif;
+  color: #2c3e50;
 }
 
 .tools-page {
@@ -125,7 +126,9 @@ a.dropdown-item {
 @import "./scss/features";
 
 .how-to {
+  @include extend("row align-items-center py-3");
   .image {
+    @include extend("col-12 col-md-6 text-center");
     img {
       user-select: none;
       -webkit-user-drag: none;
@@ -133,6 +136,7 @@ a.dropdown-item {
   }
 
   .how-to-steps {
+    @include extend("col");
     @include xs {
       text-align: center;
     }
@@ -145,4 +149,7 @@ a.dropdown-item {
 .cta-btn {
   width: auto !important;
 }
+
+@import "./scss/loading";
+@import "./scss/misk";
 @import "pdfequips-footer/scss/footer";
