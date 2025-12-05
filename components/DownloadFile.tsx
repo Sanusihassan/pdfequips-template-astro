@@ -38,7 +38,7 @@ const DownloadFile = ({
       </h3>
       <div className="download-btn-container">
         <button
-          className={`back-btn`}
+          className="back-btn"
           style={lang == "ar" ? { order: 1 } : {}}
           data-tooltip-content={
             downloadFile.backto[path as keyof typeof downloadFile.backto]

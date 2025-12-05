@@ -108,14 +108,14 @@ a.dropdown-item {
   .hide-on-rtl {
     [dir="rtl"] &,
     [lang="ar"] & {
-      display: none;
+      display: none !important;
     }
   }
 
   .hide-on-rtl {
     [dir="ltr"] &,
     :not([lang="ar"]) & {
-      display: none;
+      display: none !important;
     }
   }
 }

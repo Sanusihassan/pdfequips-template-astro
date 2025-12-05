@@ -10,7 +10,7 @@ import {
   type PageViewport,
   type RenderTask,
 } from "pdfjs-dist";
-import { toast } from "react-toastify";
+import { toast, type Id } from "react-toastify";
 // @ts-ignore
 const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
 // pdfjs.GlobalWorkerOptions = pdfjs.GlobalWorkerOptions || {};
@@ -132,7 +132,7 @@ export async function getFirstPageAsImage(
         password: password || undefined,
       });
 
-      let tid;
+      let tid: Id;
 
       // Handle password requests
       loadingTask.onPassword = (updatePassword, reason) => {
@@ -140,7 +140,9 @@ export async function getFirstPageAsImage(
           // First time asking for password
           if (password) {
             updatePassword(password);
-            toast.dismiss(tid);
+            if (tid) {
+              toast.dismiss(tid);
+            }
           } else {
             dispatch(setField({ errorCode: "PASSWORD_REQUIRED" }));
             tid = toast.error(errors.PASSWORD_REQUIRED.message);
