@@ -17,7 +17,7 @@ const ErrorElement = ({ cta }: { cta: string }) => {
         style={{
           display: errorMessage.length ? "block" : "none",
         }}
-        className="error-element alert alert-danger text-center mt-3"
+        className="error-element"
         role="alert"
       >
         <ExclamationCircleIcon

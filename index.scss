@@ -104,6 +104,7 @@ a.dropdown-item {
 
 // error element styles
 .error-element {
+  @include extend("alert alert-danger text-center mt-3");
   .hide-on-rtl {
     [dir="rtl"] &,
     [lang="ar"] & {
