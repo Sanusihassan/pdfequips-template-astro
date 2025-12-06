@@ -79,12 +79,12 @@ const EditPage = ({
           text={edit_page.add_more_button}
         />
         <button
-          className="gear-button btn btn-light"
+          className={`gear-button btn btn-light${showOptions ? " active" : ""}`}
           onClick={() => {
             dispatch(setField({ showOptions: !showOptions }));
           }}
         >
-          <CogIcon className="w-6 h-6 me-2 gear-icon" />
+          <CogIcon className="w-6 h-6 gear-icon" />
         </button>
       </section>
       <section className={`options bg-white ${showOptions ? " expanded" : ""}`}>

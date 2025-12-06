@@ -54,8 +54,24 @@
 
     .gear-button {
       @include extend("position-absolute");
-      top: 80px;
-      left: 2.535px;
+      &:not(.active) {
+        right: unset;
+        top: 80px;
+        left: 2.535px;
+        @include ar-wrapper {
+          left: unset;
+          right: 2.535px;
+        }
+      }
+      &.active {
+        right: unset;
+        left: 0;
+        @include ar-wrapper {
+          left: unset;
+          right: 0;
+        }
+        top: 0.25em;
+      }
       z-index: 15;
       display: none;
       border: 1px solid #ccc;
@@ -107,6 +123,7 @@
 
   .options {
     border-left: 1px solid #dee2e6;
+    @include extend("bg-white");
     flex: 1 0 25%;
     .options-form {
       @include extend("p-3 flex-fill");
@@ -134,7 +151,7 @@
 
     display: flex;
     min-height: 85vh;
-    max-height: 100%;
+    z-index: 1;
     flex-direction: column;
     justify-content: space-between;
 
