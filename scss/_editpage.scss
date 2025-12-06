@@ -91,6 +91,7 @@
     @include extend("position-absolute rounded-circle");
     width: 2em;
     height: 2em;
+    z-index: 2;
 
     // what i'm trying to do is when the language is not arabic apply this style
     :not([lang="ar"]) & {
