@@ -12,15 +12,8 @@ export const CTABtn = ({
   centerItem?: boolean;
 }) => {
   return (
-    <div
-      className={`cta-btn mt-2${centerItem ? " row justify-content-center" : ""}`}
-    >
-      <a
-        href="/pricing"
-        className="btn btn-primary btn-sm cta-btn"
-        target="_blank"
-        style={{ fontWeight: "500" }}
-      >
+    <div className={centerItem ? "center-item" : undefined}>
+      <a href="/pricing" className="cta-btn" target="_blank">
         {cta}
       </a>
     </div>
@@ -69,7 +62,7 @@ export const Options = ({ content }: { content: edit_page["options"] }) => {
       </div>
       {/* Show alert if limitationMsg is set */}
       {limitationMsg ? (
-        <div className="mt-3 alert alert-info mb-3" role="alert">
+        <div className="limitation-alert" role="alert">
           {limitationMsg}
           <CTABtn cta={content.cta} />
         </div>

@@ -15,5 +15,3 @@ File Size Limit: Each individual file you upload is usually limited to 50MB in s
 next add password state
 
 added alert on password error & removed cdn bootstrap.
-
-git add .; git commit -m "fixed options layout on mobile"; git push origin master   

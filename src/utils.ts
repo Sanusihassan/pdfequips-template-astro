@@ -143,6 +143,8 @@ export async function getFirstPageAsImage(
             if (tid) {
               toast.dismiss(tid);
             }
+            dispatch(setField({ errorCode: null }));
+            dispatch(setField({ errorMessage: "" }));
           } else {
             dispatch(setField({ errorCode: "PASSWORD_REQUIRED" }));
             tid = toast.error(errors.PASSWORD_REQUIRED.message);
