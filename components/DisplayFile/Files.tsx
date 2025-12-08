@@ -57,7 +57,7 @@ const Files = ({
       }
       pageCounts = await Promise.all(files.map(calculatePages));
       const totalPages = pageCounts.reduce((sum, count) => sum + count, 0);
-      if (files.length >= 10) {
+      if (files.length >= 50) {
         limitationMsg = errors.alerts.maxFiles;
       } else if (totalPages > 1500) {
         limitationMsg = errors.alerts.totalPages;
