@@ -18,6 +18,7 @@ export interface ToolState {
   rotations: { k: string; r: number }[];
   passwords: { k: string; p: string }[];
   subscriptionStatus: boolean | null;
+  isAdBlocked: boolean;
 }
 
 const initialState: ToolState = {
@@ -33,6 +34,7 @@ const initialState: ToolState = {
   rotations: [],
   passwords: [],
   subscriptionStatus: null,
+  isAdBlocked: false
 };
 
 const toolSlice = createSlice({

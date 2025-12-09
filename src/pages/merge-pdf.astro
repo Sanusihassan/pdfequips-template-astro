@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../partials/BaseLayout.astro";
 import {
+  adBlockerContent,
   downloadFile,
   edit_page,
   errors,
@@ -36,6 +37,7 @@ export const store = configureStore({
       howTo={howToSchema}
       to={to}
       seoTitle={seoTitle}
+      adBlockerContent={adBlockerContent}
     />
   </ReduxProvider>
 </BaseLayout>

@@ -6,6 +6,8 @@ import { type _howToSchema } from "../src/how-to/how-to";
 import { Features } from "./Features";
 import type { WithContext, HowTo as HowToType } from "schema-dts";
 import HowTo from "./HowTo";
+import AdBlockDetector from "./AdBlockDetector";
+import type { adBlockerContentType } from "../src/content/content";
 
 export const store = configureStore({
   reducer: {
@@ -21,13 +23,14 @@ type ToolWrapperProps = ToolProps & {
   howTo: WithContext<HowToType>;
   seoTitle: string;
   to: string;
+  adBlockerContent: adBlockerContentType;
 };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export function ToolWrapper(props: ToolWrapperProps) {
-  const { features, seoTitle, to, howTo } = props;
+  const { features, seoTitle, to, howTo, adBlockerContent } = props;
   return (
     <ReduxProvider store={store}>
       <ToolComponent {...props} />
@@ -39,6 +42,7 @@ export function ToolWrapper(props: ToolWrapperProps) {
       <div className="container">
         <HowTo howTo={howTo} alt={seoTitle} imgSrc={to.replace("/", "")} />
       </div>
+      <AdBlockDetector content={adBlockerContent} />
     </ReduxProvider>
   );
 }

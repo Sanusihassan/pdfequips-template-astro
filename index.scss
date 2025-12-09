@@ -7,6 +7,10 @@
 @import "./scss/minxins";
 @import "./scss/placeholders";
 
+svg {
+  display: initial !important;
+}
+
 $pdf-color: #fc271c;
 $color-map: (
   "merge-pdf": $pdf-color,

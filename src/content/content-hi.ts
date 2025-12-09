@@ -8,6 +8,7 @@ import type {
   downloadFile as _downloadFile,
   landing_page as _landing_page,
 } from "../content";
+import type { adBlockerContentType } from "./content";
 
 export const tool: _tool = {
   Merge_PDF: {
@@ -181,3 +182,9 @@ export const errors: _errors = {
     code: "MAX_DAILY_USAGE",
   },
 };
+
+export const adBlockerContent: adBlockerContentType = {
+  title: "विज्ञापन ब्लॉकर का पता चला",
+  description: "हमने देखा कि आप एक विज्ञापन ब्लॉकर का उपयोग कर रहे हैं। कृपया हमारा समर्थन करने के लिए इसे अक्षम करने पर विचार करें!",
+  reloadPage: "पृष्ठ पुनः लोड करें"
+}

@@ -54,7 +54,6 @@ export const ActionDiv = ({
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (setPassword && passwordInput.trim()) {
-      console.log("Submitting password:", passwordInput);
       setPassword(passwordInput);
     }
   };
