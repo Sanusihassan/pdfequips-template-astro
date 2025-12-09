@@ -164,9 +164,12 @@ export const errors = {
     fileSize: "50MB per file. Upgrade for more!",
   },
 };
+
 export const adBlockerContent = {
   title: "Ad Blocker Detected",
-  description: "We noticed you're using an ad blocker. Please consider disabling it to support us!",
-  reloadPage: "Reload Page"
+  description: "We noticed you're using an ad blocker. Please consider disabling it or upgrade to premium for an ad-free experience!",
+  reloadPage: "Reload Page",
+  upgradeToPremium: "Upgrade to Premium"
 }
+
 export type adBlockerContentType = typeof adBlockerContent;

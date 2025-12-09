@@ -164,6 +164,9 @@ a.dropdown-item {
 .center-item {
   @include extend("row justify-content-center");
 }
+a.no-underline {
+  @include extend("text-decoration-none");
+}
 
 @import "./scss/loading";
 @import "./scss/misk";

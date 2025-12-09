@@ -174,7 +174,8 @@ export const errors: _errors = {
 };
 
 export const adBlockerContent: adBlockerContentType = {
-  title: "تم الكشف عن مانع الإعلانات",
-  description: "لاحظنا أنك تستخدم مانع إعلانات. نرجو تعطيله لدعمنا!",
-  reloadPage: "إعادة تحميل الصفحة"
+  title: "تم اكتشاف مانع الإعلانات",
+  description: "لاحظنا أنك تستخدم مانع الإعلانات. يرجى التفكير في تعطيله أو الترقية إلى النسخة المميزة للحصول على تجربة خالية من الإعلانات!",
+  reloadPage: "إعادة تحميل الصفحة",
+  upgradeToPremium: "الترقية إلى النسخة المميزة"
 }

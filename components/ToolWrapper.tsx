@@ -30,7 +30,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export function ToolWrapper(props: ToolWrapperProps) {
-  const { features, seoTitle, to, howTo, adBlockerContent } = props;
+  const { features, seoTitle, to, howTo, adBlockerContent, lang } = props;
   return (
     <ReduxProvider store={store}>
       <ToolComponent {...props} />
@@ -42,7 +42,7 @@ export function ToolWrapper(props: ToolWrapperProps) {
       <div className="container">
         <HowTo howTo={howTo} alt={seoTitle} imgSrc={to.replace("/", "")} />
       </div>
-      <AdBlockDetector content={adBlockerContent} />
+      <AdBlockDetector content={adBlockerContent} lang={lang} />
     </ReduxProvider>
   );
 }

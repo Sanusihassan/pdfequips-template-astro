@@ -185,6 +185,7 @@ export const errors: _errors = {
 
 export const adBlockerContent: adBlockerContentType = {
   title: "Bloqueur de publicités détecté",
-  description: "Nous avons remarqué que vous utilisez un bloqueur de publicités. Merci d'envisager de le désactiver pour nous soutenir !",
-  reloadPage: "Recharger la page"
+  description: "Nous avons remarqué que vous utilisez un bloqueur de publicités. Veuillez envisager de le désactiver ou de passer à la version premium pour une expérience sans publicité!",
+  reloadPage: "Recharger la page",
+  upgradeToPremium: "Passer à Premium"
 }

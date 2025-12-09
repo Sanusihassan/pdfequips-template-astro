@@ -170,6 +170,7 @@ export const errors: _errors = {
 
 export const adBlockerContent: adBlockerContentType = {
   title: "检测到广告拦截器",
-  description: "我们检测到您正在使用广告拦截器。请考虑禁用它以支持我们！",
-  reloadPage: "重新加载页面"
-}
+  description: "我们注意到您正在使用广告拦截器。请考虑禁用它或升级到高级版以获得无广告体验！",
+  reloadPage: "重新加载页面",
+  upgradeToPremium: "升级到高级版"
+};
